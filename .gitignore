@@ -1,0 +1,8 @@
+.bundle/
+log/*.log
+pkg/
+test/dummy/log/*.log
+test/dummy/tmp/
+test/dummy/.sass-cache
+nbproject
+Releases

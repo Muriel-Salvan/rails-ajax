@@ -1,0 +1,256 @@
+//--
+// Copyright (c) 2012 Muriel Salvan (muriel@x-aeon.com)
+// Licensed under the terms specified in LICENSE file. No warranty is provided.
+//++
+
+<% if (RailsAjax.config.Enabled) %>
+
+// Encapsulate everything in a nice namespace
+var railsAjax = {
+
+  // Initialization, to be called just once when the DOM is ready
+  init: function() {
+    try {
+      // Register bindings to every Rails remote element
+      railsAjax.attachAjaxToElements('*[data-remote=true]');
+      var lRootURL = History.getRootUrl();
+      jQuery(window).bind('statechange', function() {
+        try {
+          var lState = History.getState();
+          <%= 'alert(\'[RailsAjax] History statechange triggered #\' + lState.data.id + \' via \' + lState.data.type + \' to \' + lState.url.replace(lRootURL, \'/\') + \' (anchor: \' + lState.data.anchor + \')\');' if (RailsAjax.config.DebugAlerts) %>
+          jQuery.ajax({
+            // TODO (History.js): Remove the anchor attribute when History.js handles anchors correctly.
+            anchor: lState.data.anchor,
+            // Get back all parameters set by Rails' jquery-ujs
+            type: lState.data.type,
+            data: lState.data.data,
+            dataType: lState.data.dataType,
+            crossDomain: lState.data.crossDomain,
+            // Set the URL to query
+            url: lState.url.replace(lRootURL, '/'),
+            // And the callbacks
+            // TODO (History.js): Remove the beforeSend callback when anchors will be handled correctly by History.js
+            beforeSend: function(ioXHR, iSettings) {
+              // Remember the anchor used
+              ioXHR.anchor = iSettings.anchor;
+            },
+            success: function(iData, iStatus, iXHR) {
+              railsAjax.ajaxSuccess(iXHR, iData);
+            },
+            error: function(iXHR, iStatus, iError) {
+              railsAjax.ajaxError(iXHR, iError);
+            }
+          });
+        } catch (iError) {
+          alert('[RailsAjax] Exception in statechange callback: ' + iError.name + ' - ' + iError.message);
+        }
+      });
+    } catch (iError) {
+      alert('[RailsAjax] Exception during railsAjax initialization: ' + iError.name + ' - ' + iError.message);
+    }
+  },
+
+  // Attach Ajax delegations to elements needing them
+  //
+  // Parameters::
+  // * *iCSSSelector* (_String_): CSS selector of elements needing attachment
+  attachAjaxToElements: function(iCSSSelector) {
+    try {
+      <%= 'alert(\'[RailsAjax] Attach Ajax bindings to elements \' + iCSSSelector + \' (\' + jQuery(iCSSSelector).length + \' elements)\');' if (RailsAjax.config.DebugAlerts) %>
+      jQuery(document)
+        .delegate(iCSSSelector, 'ajax:beforeSend', function(iEvent, ioXHR, iSettings) {
+          try {
+            var lThis = jQuery(this);
+            var lURL = ((lThis.is('a')) ? lThis.attr('href') : lThis.attr('action'));
+            <%= 'alert(\'[RailsAjax] Ajax before send. URL=\' + lURL + \' Method=\' + iSettings.type + \' Data=\' + iSettings.data);' if (RailsAjax.config.DebugAlerts) %>
+            var lContinue = true;
+            if (railsAjax.beforeSend != undefined) {
+              try {
+                lContinue = (railsAjax.beforeSend(ioXHR, iSettings) != false);
+              } catch (iUserError) {
+                alert('[RailsAjax] Exception in user callback railsAjax.beforeSend: ' + iUserError.name + ' - ' + iUserError.message);
+              }
+            }
+            <%= 'alert(\'[RailsAjax] Continue on the Ajax load ? \' + lContinue);' if (RailsAjax.config.DebugAlerts) %>
+            if (lContinue) {
+              railsAjax.pushNewState(lURL,
+                {
+                  // Replicate the whole Rails' jquery-ujs parameters, as we will need to pass them to the new ajax options object created during onstatechange event.
+                  type: iSettings.type,
+                  data: iSettings.data,
+                  dataType: iSettings.dataType,
+                  crossDomain: iSettings.crossDomain
+                },
+                false
+              );
+            }
+            // Cancel AJAX processing right now.
+            // It will be taken care of by the changestate event.
+            return false;
+          } catch (iError) {
+            alert('[RailsAjax] Exception while ajax:beforeSend: ' + iError.name + ' - ' + iError.message);
+          }
+        })
+    } catch (iError) {
+      alert('[RailsAjax] Exception while binding Ajax events to elements ' + iCSSSelector + ': ' + iError.name + ' - ' + iError.message);
+    }
+  },
+
+  // Callback called when Ajax call is successfull
+  //
+  // Parameters::
+  // * *iXHR* (_Object_): The XHR object responsible for the Ajax call
+  // * *iData* (_String_): The received data
+  ajaxSuccess: function(iXHR, iData) {
+    try {
+      <%= 'alert(\'[RailsAjax] Ajax success. Loading data: \' + iData);' if (RailsAjax.config.DebugAlerts) %>
+
+      // 1. Change the window's title if needed
+      if ('page_title' in iData) {
+        document.title = iData.page_title;
+      }
+
+      // 2. Replace HTML data, and execute scripts in the same time
+      jQuery.each(iData.div_contents, function(iCSSSelector, iContent) {
+        // This replaces HTML content and also executes scripts (even document.ready ones)
+        jQuery(iCSSSelector).html(iContent);
+      });
+      
+      // 3. Scroll to anchor if needed
+      if (iXHR.anchor) {
+        railsAjax.scrollToAnchor(iXHR.anchor);
+      }
+
+      // 4. For Firefox only, workaround a bug by setting the Favicon
+      if (jQuery.browser.mozilla) {
+        railsAjax.setFavicon();
+      }
+
+      // 5. Execute scripts that were added
+      if ('js_to_execute' in iData) {
+        jQuery.each(iData.js_to_execute, function(iIdx, iJS) {
+          <%= 'alert(\'[RailsAjax] Execute script #\' + iIdx + \':\\n\' + iJS);' if (RailsAjax.config.DebugAlerts) %>
+          try {
+            eval(iJS);
+          } catch (iError) {
+            alert('[RailsAjax] Exception while executing Ajax script: ' + iError.name + ' - ' + iError.message + '\nScript:\n' + iJS);
+          }
+        });
+      }
+
+      // 6. Call user callbacks
+      if (railsAjax.success != undefined) {
+        try {
+          railsAjax.success(iXHR, iData);
+        } catch (iUserError) {
+          alert('[RailsAjax] Exception in user callback railsAjax.success: ' + iUserError.name + ' - ' + iUserError.message);
+        }
+      }
+      if (railsAjax.complete != undefined) {
+        try {
+          railsAjax.complete(iXHR);
+        } catch (iUserError) {
+          alert('[RailsAjax] Exception in user callback railsAjax.complete: ' + iUserError.name + ' - ' + iUserError.message);
+        }
+      }
+
+      // 7. Handle redirects
+      if ('redirect_to' in iData) {
+        railsAjax.pushNewState(iData.redirect_to, {}, true);
+      }
+
+    } catch (iError) {
+      alert('[RailsAjax] Exception while Ajax success callback: ' + iError.name + ' - ' + iError.message);
+    }
+  },
+
+  // Callback called when Ajax call has failed
+  //
+  // Parameters::
+  // * *iXHR* (_Object_): The xhr object
+  // * *iError* (_Object_): The error
+  ajaxError: function(iXHR, iError) {
+    if (railsAjax.error != undefined) {
+      try {
+        railsAjax.error(iXHR, iError);
+      } catch (iUserError) {
+        alert('[RailsAjax] Exception in user callback railsAjax.error: ' + iUserError.name + ' - ' + iUserError.message);
+      }
+    }
+    if (railsAjax.complete != undefined) {
+      try {
+        railsAjax.complete(iXHR);
+      } catch (iUserError) {
+        alert('[RailsAjax] Exception in user callback railsAjax.complete: ' + iUserError.name + ' - ' + iUserError.message);
+      }
+    }
+  },
+
+  // Used to identify states in debugging logs
+  <%= 'gStateID: 0,' if (RailsAjax.config.DebugAlerts) %>
+
+  // Push a new History state
+  //
+  // Parameters::
+  // * *iURL* (_String_): The URL to be pushed
+  // * *iData* (_Object_): The state object to store with it
+  // * *iReplaceState* (_Boolean_): Do we replace the current state ?
+  pushNewState: function(iURL, iData, iReplaceState) {
+    try {
+      // Remove the hash if it is present, as otherwise anchorchange is triggered and statechange ignored.
+      // We don't want to handle anchorchange callback as it is unable to get the real History state correctly.
+      // TODO (History.js): Correct bug https://github.com/balupton/history.js/issues/42 and https://github.com/balupton/history.js/issues/173, then remove this special hash and anchor treatment
+      var lSplittedURL = iURL.split('#');
+      var lState = jQuery.extend(
+        {
+          // Used to identify states in debugging logs
+          <%= 'id: railsAjax.gStateID,' if (RailsAjax.config.DebugAlerts) %>
+          anchor: lSplittedURL[1]
+        },
+        iData
+      );
+      if (iReplaceState) {
+        History.replaceState(lState, null, lSplittedURL[0]);
+      } else {
+        History.pushState(lState, null, lSplittedURL[0]);
+      }
+      <%= 'railsAjax.gStateID = railsAjax.gStateID + 1;' if (RailsAjax.config.DebugAlerts) %>
+    } catch (iError) {
+      alert('[RailsAjax] Exception in pushNewState: ' + iError.name + ' - ' + iError.message);
+    }
+  },
+
+  // Scroll the web page to display a given anchor.
+  // An anchor is either a div id, or a named "a"
+  //
+  // Parameters::
+  // * *iAnchor* (_String_): Anchor name
+  scrollToAnchor: function(iAnchor) {
+    var lDivElement = jQuery('div#' + iAnchor)[0]
+    if (lDivElement != undefined) {
+      lDivElement.scrollIntoView(true);
+    } else {
+      var lLstElements = window.document.getElementsByName(iAnchor);
+      if (lLstElements.length > 0) {
+        lLstElements[0].scrollIntoView(true);
+      } else {
+        alert('[RailsAjax] No anchor named ' + iAnchor);
+      }
+    }
+  },
+
+  // Reload the favicon.
+  // This is needed to workaround a Firefox bug: http://kilianvalkhof.com/2010/javascript/the-case-of-the-disappearing-favicon/
+  setFavicon: function() {
+    var link = jQuery('link[type="image/x-icon"]').remove().attr('href');
+    jQuery('<link href="'+ link +'" rel="shortcut icon" type="image/x-icon" />').appendTo('head');
+  }
+
+};
+
+// Initialize everything once the DOM is loaded and ready
+jQuery(document).ready(function(){
+  railsAjax.init();
+});
+
+<% end %>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dummy</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div id="Layout">
+    <div id="FlashNotice"><%= flash[:notice] %></div>
+    <div id="FlashError"><%= flash[:error] %></div>
+    <div id="FlashAlert"><%= flash[:alert] %></div>
+    <div id="FlashNewNotice"></div>
+    <div id="FlashNewError"></div>
+    <div id="FlashNewAlert"></div>
+    <div id="Layout_RefreshCounter">Layout refresh counter: <%= session[:counters][:layout] += 1%></div>
+    <div id="Content">
+      <%= yield %>
+    </div>
+    <div id="NewContent"></div>
+    <div id="LayoutDiv1"><%= render :partial => 'layout_div1' %></div>
+    <div id="LayoutDiv2"><%= render :partial => 'layout_div2' %></div>
+    <%= link_to 'Go to Page1 from Layout', page1_path %>
+    <%= link_to 'Go to Index from Layout', root_path %>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+<div id="page_with_jquery_ready">
+  <div id="page_with_jquery_ready_RefreshCounter">page_with_jquery_ready refresh counter: <%= session[:counters][:page_with_jquery_ready] += 1%></div>
+  <%= link_to 'Go to Index from page_with_jquery_ready', root_path %>
+  <%= javascript_tag '
+        jQuery(document).ready(function(){
+          alert(\'Javascript executed from page_with_jquery_ready\');
+        });
+  '%>
+</div>

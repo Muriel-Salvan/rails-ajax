@@ -1,0 +1,17 @@
+<div id="page_with_anchor">
+  <div id="page_with_anchor_RefreshCounter">page_with_anchor refresh counter: <%= session[:counters][:page_with_anchor] += 1%></div>
+  <%= link_to 'Go to Index from page_with_anchor', root_path %>
+  <div id="page_with_anchor_Parameters">
+    <% params.each do |iParamName, iParamValue| %>
+      <div id="page_with_anchor_Param_<%= iParamName %>"><%= "#{iParamName} = #{iParamValue}" %></div>
+    <% end %>
+  </div>
+  <%# Insert tons of returns to make sure the window will be scrolled to reach the anchor %>
+  <% 500.times do |iIdx| %>
+    <br/>
+  <% end %>
+  <a name="Anchor"/>
+  <div id="page_with_anchor_Bottom">
+    This is visible only after scroll
+  </div>
+</div>
