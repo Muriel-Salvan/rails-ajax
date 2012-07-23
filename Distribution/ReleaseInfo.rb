@@ -33,9 +33,9 @@ RubyPackager::ReleaseInfo.new.
     Dir.glob('test/dummy/.sass-cache/**/*')
   ).
   add_additional_files( [
-    'README',
+    'README.rdoc',
     'LICENSE',
-    'AUTHORS',
+    'AUTHORS.rdoc',
     'Credits',
     'ChangeLog',
     'Gemfile',

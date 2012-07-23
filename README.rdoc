@@ -1,0 +1,56 @@
+= Rails-Ajax
+
+<b>Integrate Ajax capabilities to Rails websites with history, bookmarking, partial refreshes, Rails flashes, user callbacks, scripts execution, redirections.</b>
+
+Rails-Ajax is a <b>Rails plugin</b> that turns a static <b>Rails website into an optimized one using Ajax</b>, <b>without altering the user experience</b> and with minimal code changes.
+
+== Where is the documentation ?
+
+Complete documentation can be found at http://rails-ajax.sourceforge.net
+
+== Basic install
+
+rails-ajax is packaged as a Ruby gem. You can install it using RubyGems:
+
+ gem install rails-ajax
+
+== Basic usage
+
+=== Generate configuration files
+
+Once installed, some configuration files need to be generated:
+
+ rake rails-ajax:install
+
+=== Edit configuration files
+
+Edit the generated config files to your taste.
+Most importantly, identify the container that should be refreshed by Ajax calls, and set it in <em>config/initializers/rails-ajax-config.rb</em>:
+
+ main_container 'div#Content'
+
+=== Include Javascript files
+
+Include rails-ajax Javascript files in your asset pipeline (<em>app/assets/javascripts/application.js</em>):
+
+<tt>// RailsAjax</tt>
+
+<tt>//= require jquery.history</tt>
+
+<tt>//= require jquery.rails-ajax</tt>
+
+<tt>//= require RailsAjax-Config</tt>
+
+=== It already works
+
+Just restart your Rails server and your application should be working using Ajax calls to refresh just your main site container, with history, redirects, forms... working exactly the same way they did before.
+
+For more advanced features, see the complete documentation.
+
+== Who contributed to it ?
+
+Check the AUTHORS[link:http://github.com/Muriel-Salvan/rails-ajax/blob/master/AUTHORS.rdoc] file.
+
+== What is the license ?
+
+You can find out in the LICENSE[link:http://github.com/Muriel-Salvan/rails-ajax/blob/master/LICENSE] file.
