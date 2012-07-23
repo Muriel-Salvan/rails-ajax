@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    dummy_gem (0.0.1)
-      rails (~> 3.2.6)
+    rails-ajax (0.0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -146,8 +145,9 @@ DEPENDENCIES
   capybara-webkit
   cucumber-rails
   database_cleaner
-  dummy_gem!
   jquery-rails
+  rails (~> 3.2.1)
+  rails-ajax!
   rspec
   rspec-rails
   sqlite3
