@@ -44,7 +44,7 @@ Feature: Refresh flash messages
   @javascript
   Scenario: Simple redirect with flash updates with JavaScript enabled
     Given I am on the home page
-    When I click on "Redirect" from "Index with flash"
+    When I click on "Redirect" from "flashed Index"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "Page1" should be "1"
       And the location URL should be "/page1"
@@ -54,7 +54,7 @@ Feature: Refresh flash messages
 
   Scenario: Simple redirect with flash updates with JavaScript disabled
     Given I am on the home page
-    When I click on "Redirect" from "Index with flash"
+    When I click on "Redirect" from "flashed Index"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Page1" should be "1"
       And the location URL should be "/page1"
@@ -65,7 +65,7 @@ Feature: Refresh flash messages
   @javascript
   Scenario: Simple redirect with flash updates then deletion with JavaScript enabled
     Given I am on the home page
-    When I click on "Redirect" from "Index with flash"
+    When I click on "Redirect" from "flashed Index"
       And I click on "Page2" from "Page1"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "Page2" should be "1"
@@ -76,7 +76,7 @@ Feature: Refresh flash messages
 
   Scenario: Simple redirect with flash updates then deletion with JavaScript disabled
     Given I am on the home page
-    When I click on "Redirect" from "Index with flash"
+    When I click on "Redirect" from "flashed Index"
       And I click on "Page2" from "Page1"
     Then the refresh counter "Layout" should be "3"
       And the refresh counter "Page2" should be "1"
@@ -88,7 +88,7 @@ Feature: Refresh flash messages
   @javascript
   Scenario: Refresh flash messages using forms with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 8" using "IndexButton11"
+    When I submit "String1" in "Text field to page 8" using "IndexButtonB"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "page_with_flash" should be "1"
       And the flash message "Notice" should be "Flash notice"
@@ -97,7 +97,7 @@ Feature: Refresh flash messages
 
   Scenario: Refresh flash messages using forms with JavaScript disabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 8" using "IndexButton11"
+    When I submit "String1" in "Text field to page 8" using "IndexButtonB"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "page_with_flash" should be "1"
       And the flash message "Notice" should be "Flash notice"
@@ -107,7 +107,7 @@ Feature: Refresh flash messages
   @javascript
   Scenario: Empty flash messages using forms with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 8" using "IndexButton11"
+    When I submit "String1" in "Text field to page 8" using "IndexButtonB"
       And I submit "String2" using "page_with_flash_Button1"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "Index" should be "2"
@@ -117,7 +117,7 @@ Feature: Refresh flash messages
 
   Scenario: Empty flash messages using forms with JavaScript disabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 8" using "IndexButton11"
+    When I submit "String1" in "Text field to page 8" using "IndexButtonB"
       And I submit "String2" using "page_with_flash_Button1"
     Then the refresh counter "Layout" should be "3"
       And the refresh counter "Index" should be "2"
@@ -128,7 +128,7 @@ Feature: Refresh flash messages
   @javascript
   Scenario: Simple redirect with flash updates using forms with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to redirect with flash" using "IndexButton13"
+    When I submit "String1" in "Text field to flashed redirect" using "IndexButtonD"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "Page1" should be "1"
       And the location URL should be "/page1"
@@ -138,7 +138,7 @@ Feature: Refresh flash messages
 
   Scenario: Simple redirect with flash updates using forms with JavaScript disabled
     Given I am on the home page
-    When I submit "String1" in "Text field to redirect with flash" using "IndexButton13"
+    When I submit "String1" in "Text field to flashed redirect" using "IndexButtonD"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Page1" should be "1"
       And the location URL should be "/page1"
@@ -149,7 +149,7 @@ Feature: Refresh flash messages
   @javascript
   Scenario: Simple redirect with flash updates then deletion using forms with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to redirect with flash" using "IndexButton13"
+    When I submit "String1" in "Text field to flashed redirect" using "IndexButtonD"
       And I submit "String2" using "Page1Button1"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "Index" should be "2"
@@ -160,7 +160,7 @@ Feature: Refresh flash messages
 
   Scenario: Simple redirect with flash updates then deletion using forms with JavaScript disabled
     Given I am on the home page
-    When I submit "String1" in "Text field to redirect with flash" using "IndexButton13"
+    When I submit "String1" in "Text field to flashed redirect" using "IndexButtonD"
       And I submit "String2" using "Page1Button1"
     Then the refresh counter "Layout" should be "3"
       And the refresh counter "Index" should be "2"

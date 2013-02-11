@@ -89,7 +89,9 @@ end
 When /^I submit "([^"]*?)" using "([^"]*?)"$/ do |iTextValue, iButtonName|
   # Find the button first, before filling in the text field, as otherwise the driver could fill the previous text field if the Ajax call did not return the new page fast enough.
   lButton = find_button(iButtonName)
-  fill_in('Text field', :with => iTextValue)
+  all(:field, 'Text field').each do |ioElement|
+    ioElement.set(iTextValue)
+  end
   lButton.click
 end
 

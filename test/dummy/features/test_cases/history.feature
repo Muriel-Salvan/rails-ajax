@@ -57,7 +57,7 @@ Feature: History
   @javascript
   Scenario: Browser's history remembers anchors with JavaScript enabled
     Given I am on the home page
-    When I click on "page_with_anchor" from "Index with anchor"
+    When I click on "page_with_anchor" from "anchored Index"
       And I click on "Index" from "page_with_anchor"
       And I go back "1" times in history
     # TODO (History.js): When History.js will handle correctly anchors, the location should be "/page_with_anchor#Anchor"
@@ -69,7 +69,7 @@ Feature: History
   @javascript
   Scenario: Browser's history remembers anchors used with forms with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 3 with anchor" using "IndexButton7"
+    When I submit "String1" in "Text field to anchored page 3" using "IndexButton7"
       And I click on "Index" from "page_with_anchor"
       And I go back "1" times in history
     # TODO (History.js): When History.js will handle correctly anchors, the location should be "/page_with_anchor#Anchor"

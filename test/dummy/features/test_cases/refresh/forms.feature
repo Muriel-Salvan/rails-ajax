@@ -76,7 +76,7 @@ Feature: Refresh forms
   @javascript
   Scenario: Do not use Ajax when a target is specified in the form with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field with target" using "IndexButton3"
+    When I submit "String1" in "targeted Text field" using "IndexButton3"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Page1" should be "1"
       And the "Page1" parameter "index_field_2" should be "String1"
@@ -84,7 +84,7 @@ Feature: Refresh forms
 
   Scenario: Do not use Ajax when a target is specified in the form with JavaScript disabled
     Given I am on the home page
-    When I submit "String1" in "Text field with target" using "IndexButton3"
+    When I submit "String1" in "targeted Text field" using "IndexButton3"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Page1" should be "1"
       And the "Page1" parameter "index_field_2" should be "String1"
@@ -101,7 +101,7 @@ Feature: Refresh forms
   @javascript
   Scenario: Scroll the window to an anchor if needed with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 3 with anchor" using "IndexButton7"
+    When I submit "String1" in "Text field to anchored page 3" using "IndexButton7"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "page_with_anchor" should be "1"
       And element "page_with_anchor_Bottom" should be visible

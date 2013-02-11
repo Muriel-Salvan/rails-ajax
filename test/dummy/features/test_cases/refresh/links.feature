@@ -45,13 +45,13 @@ Feature: Refresh links
   @javascript
   Scenario: Do not use Ajax when a target is specified in the link with JavaScript enabled
     Given I am on the home page
-    When I click on "Page1" from "Index with target"
+    When I click on "Page1" from "targeted Index"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Page1" should be "1"
 
   Scenario: Do not use Ajax when a target is specified in the link with JavaScript disabled
     Given I am on the home page
-    When I click on "Page1" from "Index with target"
+    When I click on "Page1" from "targeted Index"
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Page1" should be "1"
 
@@ -66,7 +66,7 @@ Feature: Refresh links
   @javascript
   Scenario: Scroll the window to an anchor if needed with JavaScript enabled
     Given I am on the home page
-    When I click on "page_with_anchor" from "Index with anchor"
+    When I click on "page_with_anchor" from "anchored Index"
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "page_with_anchor" should be "1"
       And element "page_with_anchor_Bottom" should be visible

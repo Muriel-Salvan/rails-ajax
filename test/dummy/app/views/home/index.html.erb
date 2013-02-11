@@ -1,16 +1,16 @@
 <div id="Index">
   <div id="Index_RefreshCounter">Index refresh counter: <%= session[:counters][:index] += 1%></div>
   <%= link_to 'Go to Page1 from Index', page1_path %>
-  <%= link_to 'Go to Page1 from Index with target', page1_path, :target => '_top' %>
+  <%= link_to 'Go to Page1 from targeted Index', page1_path, :target => '_top' %>
   <%= link_to 'Go to page_with_anchor from Index', page_with_anchor_path %>
-  <%= link_to 'Go to page_with_anchor from Index with anchor', page_with_anchor_path(:anchor => 'Anchor') %>
+  <%= link_to 'Go to page_with_anchor from anchored Index', page_with_anchor_path(:anchor => 'Anchor') %>
   <%= link_to 'Go to page_with_refresh_layoutdiv from Index', page_with_refresh_layoutdiv_path %>
   <%= link_to 'Go to page_with_railsajax_javascript from Index', page_with_railsajax_javascript_path %>
   <%= link_to 'Go to page_with_javascript from Index', page_with_javascript_path %>
   <%= link_to 'Go to page_with_jquery_ready from Index', page_with_jquery_ready_path %>
   <%= link_to 'Go to page_with_flash from Index', page_with_flash_path %>
   <%= link_to 'Go to Redirect from Index', redirect_path %>
-  <%= link_to 'Go to Redirect from Index with flash', redirect_with_flash_path %>
+  <%= link_to 'Go to Redirect from flashed Index', redirect_with_flash_path %>
   <%= link_to 'Go to IncorrectPage from Index', '/incorrect_page' %>
   <%= form_tag page1_path do %>
     <%= label_tag :index_field_1, 'Text field' %><%= text_field_tag :index_field_1 %>
@@ -18,7 +18,7 @@
     <%= submit_tag 'IndexButton2' %>
   <% end %>
   <%= form_tag page1_path, :target => '_top' do %>
-    <%= label_tag :index_field_2, 'Text field with target' %><%= text_field_tag :index_field_2 %>
+    <%= label_tag :index_field_2, 'targeted Text field' %><%= text_field_tag :index_field_2 %>
     <%= submit_tag 'IndexButton3' %>
     <%= submit_tag 'IndexButton4' %>
   <% end %>
@@ -28,24 +28,24 @@
     <%= submit_tag 'IndexButton6' %>
   <% end %>
   <%= form_tag page_with_anchor_path(:anchor => 'Anchor') do %>
-    <%= label_tag :index_field_4, 'Text field to page 3 with anchor' %><%= text_field_tag :index_field_4 %>
+    <%= label_tag :index_field_4, 'Text field to anchored page 3' %><%= text_field_tag :index_field_4 %>
     <%= submit_tag 'IndexButton7' %>
     <%= submit_tag 'IndexButton8' %>
   <% end %>
   <%= form_tag redirect_path do %>
     <%= label_tag :index_field_5, 'Text field to redirect' %><%= text_field_tag :index_field_5 %>
     <%= submit_tag 'IndexButton9' %>
-    <%= submit_tag 'IndexButton10' %>
+    <%= submit_tag 'IndexButtonA' %>
   <% end %>
   <%= form_tag page_with_flash_path do %>
     <%= label_tag :index_field_6, 'Text field to page 8' %><%= text_field_tag :index_field_6 %>
-    <%= submit_tag 'IndexButton11' %>
-    <%= submit_tag 'IndexButton12' %>
+    <%= submit_tag 'IndexButtonB' %>
+    <%= submit_tag 'IndexButtonC' %>
   <% end %>
   <%= form_tag redirect_with_flash_path do %>
-    <%= label_tag :index_field_7, 'Text field to redirect with flash' %><%= text_field_tag :index_field_7 %>
-    <%= submit_tag 'IndexButton13' %>
-    <%= submit_tag 'IndexButton14' %>
+    <%= label_tag :index_field_7, 'Text field to flashed redirect' %><%= text_field_tag :index_field_7 %>
+    <%= submit_tag 'IndexButtonD' %>
+    <%= submit_tag 'IndexButtonE' %>
   <% end %>
   <div id="Index_Parameters">
     <% params.each do |iParamName, iParamValue| %>

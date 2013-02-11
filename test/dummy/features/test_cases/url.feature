@@ -30,14 +30,14 @@ Feature: URL
   @javascript
   Scenario: Browser's location bar follows Ajax links with anchors with JavaScript enabled
     Given I am on the home page
-    When I click on "page_with_anchor" from "Index with anchor"
+    When I click on "page_with_anchor" from "anchored Index"
     # TODO (History.js): When History.js will handle correctly anchors, the location should be "/page_with_anchor#Anchor"
     Then the location URL should be "/page_with_anchor"
       And the refresh counter "page_with_anchor" should be "1"
 
   Scenario: Browser's location bar follows Ajax links with anchors with JavaScript disabled
     Given I am on the home page
-    When I click on "page_with_anchor" from "Index with anchor"
+    When I click on "page_with_anchor" from "anchored Index"
     # TODO (Capybara): Capybara removes hash parts of current urls. When this will be corrected, the location should be "/page_with_anchor#Anchor"
     Then the location URL should be "/page_with_anchor"
       And the refresh counter "page_with_anchor" should be "1"
@@ -45,14 +45,14 @@ Feature: URL
   @javascript
   Scenario: Browser's location bar follows Ajax forms with anchors with JavaScript enabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 3 with anchor" using "IndexButton7"
+    When I submit "String1" in "Text field to anchored page 3" using "IndexButton7"
     # TODO (History.js): When History.js will handle correctly anchors, the location should be "/page_with_anchor#Anchor"
     Then the location URL should be "/page_with_anchor"
       And the refresh counter "page_with_anchor" should be "1"
 
   Scenario: Browser's location bar follows Ajax forms with anchors with JavaScript disabled
     Given I am on the home page
-    When I submit "String1" in "Text field to page 3 with anchor" using "IndexButton7"
+    When I submit "String1" in "Text field to anchored page 3" using "IndexButton7"
     # TODO (Capybara): Capybara removes hash parts of current urls. When this will be corrected, the location should be "/page_with_anchor#Anchor"
     Then the location URL should be "/page_with_anchor"
       And the refresh counter "page_with_anchor" should be "1"
