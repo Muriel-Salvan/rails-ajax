@@ -102,17 +102,9 @@ end
 
 When /^I go back "(.*?)" times in history$/ do |iNbrTimes|
   iNbrTimes.to_i.times do |iIdx|
-    # Wait for the DOM to be ready before hitting back
-    page.execute_script('
-      domReady = false;
-      jQuery(document).ready(function() {
-        domReady = true;
-      });
-    ')
-    while (page.evaluate_script('domReady') == false)
-      sleep 0.2
-    end
+    wait_until_dom_ready
     page.execute_script('window.history.back();')
+    wait_until_dom_ready
   end
 end
 
@@ -170,5 +162,19 @@ end
 Then /^the element "(.*?)" should be inside element "(.*?)"$/ do |iCSSElement, iCSSContainer|
   within(iCSSContainer) do
     page.should have_selector(iCSSElement)
+  end
+end
+
+# Wait until the DOM is ready (ready event triggered)
+def wait_until_dom_ready
+  # Wait for the DOM to be ready before hitting back
+  page.execute_script('
+    domReady = false;
+    jQuery(document).ready(function() {
+      domReady = true;
+    });
+  ')
+  while (page.evaluate_script('domReady') == false)
+    sleep 0.2
   end
 end
