@@ -104,6 +104,7 @@ When /^I go back "(.*?)" times in history$/ do |iNbrTimes|
   iNbrTimes.to_i.times do |iIdx|
     page.execute_script('window.history.back();')
   end
+  sleep 1
   page.execute_script('
     domReady = false;
     jQuery(document).ready(function() {
