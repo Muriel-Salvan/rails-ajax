@@ -1,13 +1,10 @@
 language: ruby
 rvm:
-  - 1.8.7
   - 1.9.2
   - 1.9.3
   - 2.0.0
   - ruby-head
-  - rbx-18mode
   - rbx-19mode
-  - ree
   # Remove jruby as sqlite3 can't be installed on it
   # - jruby-18mode
   # - jruby-19mode
