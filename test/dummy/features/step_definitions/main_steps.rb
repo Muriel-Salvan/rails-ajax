@@ -102,10 +102,9 @@ end
 
 When /^I go back "(.*?)" times in history$/ do |iNbrTimes|
   iNbrTimes.to_i.times do |iIdx|
-    wait_until_dom_ready
+    # TODO: Remove this sleep when Capybara-webkit will handle history correctly. Test on Travis.
     sleep 5
     page.execute_script('window.history.back();')
-    wait_until_dom_ready
   end
 end
 
@@ -118,14 +117,7 @@ When /^I manually enter URL "(.*?)"$/ do |iURL|
 end
 
 Then /^the refresh counter "(.*?)" should be "(.*?)"$/ do |iCounterName, iCounterValue|
-  Capybara.default_wait_time = 60
-  begin
-    find("div##{iCounterName}_RefreshCounter").should have_content("#{iCounterName} refresh counter: #{iCounterValue}")
-  rescue Exception
-    puts "EXCEPTION #{$!}"
-    puts page.html
-    raise
-  end
+  find("div##{iCounterName}_RefreshCounter").should have_content("#{iCounterName} refresh counter: #{iCounterValue}")
 end
 
 Then /^the "(.*?)" parameter "(.*?)" should be "(.*?)"$/ do |iPageName, iParamName, iParamValue|
@@ -163,19 +155,5 @@ end
 Then /^the element "(.*?)" should be inside element "(.*?)"$/ do |iCSSElement, iCSSContainer|
   within(iCSSContainer) do
     page.should have_selector(iCSSElement)
-  end
-end
-
-# Wait until the DOM is ready (ready event triggered)
-def wait_until_dom_ready
-  # Wait for the DOM to be ready before hitting back
-  page.execute_script('
-    domReady = false;
-    jQuery(document).ready(function() {
-      domReady = true;
-    });
-  ')
-  while (page.evaluate_script('domReady') == false)
-    sleep 0.2
   end
 end
