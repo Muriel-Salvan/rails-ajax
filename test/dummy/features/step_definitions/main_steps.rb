@@ -103,6 +103,7 @@ end
 When /^I go back "(.*?)" times in history$/ do |iNbrTimes|
   iNbrTimes.to_i.times do |iIdx|
     wait_until_dom_ready
+    sleep 5
     page.execute_script('window.history.back();')
     wait_until_dom_ready
   end
