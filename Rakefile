@@ -31,5 +31,10 @@ task :test do |t|
   load("#{File.dirname(__FILE__)}/test/run.rb")
 end
 
+task :travis do
+  puts 'Travis: Run rake test with DISPLAY set correctly'
+  system('export DISPLAY=:99.0 && bundle exec rake test')
+  raise 'rake test failed!' unless $?.exitstatus == 0
+end
 
 task :default => :test

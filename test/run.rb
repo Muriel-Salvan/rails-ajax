@@ -5,3 +5,5 @@
 
 Dir.chdir("#{File.dirname(__FILE__)}/dummy")
 system('cucumber')
+exit_status = $?.exitstatus
+raise "cucumber failed with exit status #{exit_status}" unless (exit_status == 0)
