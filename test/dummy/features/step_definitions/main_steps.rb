@@ -104,16 +104,6 @@ When /^I go back "(.*?)" times in history$/ do |iNbrTimes|
   iNbrTimes.to_i.times do |iIdx|
     page.execute_script('window.history.back();')
   end
-  sleep 1
-  page.execute_script('
-    domReady = false;
-    jQuery(document).ready(function() {
-      domReady = true;
-    });
-  ')
-  while (page.evaluate_script('domReady') == false)
-    sleep 1
-  end
 end
 
 When /^I wait for "(.*?)"$/ do |iPageName|
@@ -125,6 +115,7 @@ When /^I manually enter URL "(.*?)"$/ do |iURL|
 end
 
 Then /^the refresh counter "(.*?)" should be "(.*?)"$/ do |iCounterName, iCounterValue|
+  Capybara.default_wait_time = 60
   find("div##{iCounterName}_RefreshCounter").should have_content("#{iCounterName} refresh counter: #{iCounterValue}")
 end
 
