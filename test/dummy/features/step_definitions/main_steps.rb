@@ -102,7 +102,16 @@ end
 
 When /^I go back "(.*?)" times in history$/ do |iNbrTimes|
   iNbrTimes.to_i.times do |iIdx|
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back();')
+  end
+  page.execute_script('
+    domReady = false;
+    jQuery(document).ready(function() {
+      domReady = true;
+    });
+  ')
+  while (page.evaluate_script('domReady') == false)
+    sleep 1
   end
 end
 
