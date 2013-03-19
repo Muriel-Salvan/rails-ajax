@@ -4,10 +4,11 @@ rvm:
   - 1.9.2
   - 1.9.3
   - 2.0.0
-  - jruby-18mode
-  - jruby-19mode
+  - ruby-head
   - rbx-18mode
   - rbx-19mode
-  - ruby-head
-  - jruby-head
   - ree
+  # Remove jruby as sqlite3 can't be installed on it
+  # - jruby-18mode
+  # - jruby-19mode
+  # - jruby-head
