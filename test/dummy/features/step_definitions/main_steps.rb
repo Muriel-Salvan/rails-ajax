@@ -116,7 +116,13 @@ end
 
 Then /^the refresh counter "(.*?)" should be "(.*?)"$/ do |iCounterName, iCounterValue|
   Capybara.default_wait_time = 60
-  find("div##{iCounterName}_RefreshCounter").should have_content("#{iCounterName} refresh counter: #{iCounterValue}")
+  begin
+    find("div##{iCounterName}_RefreshCounter").should have_content("#{iCounterName} refresh counter: #{iCounterValue}")
+  rescue Exception
+    puts "EXCEPTION #{$!}"
+    puts page.html
+    raise
+  end
 end
 
 Then /^the "(.*?)" parameter "(.*?)" should be "(.*?)"$/ do |iPageName, iParamName, iParamValue|
