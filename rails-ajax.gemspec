@@ -4,4 +4,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rails-ajax'
   s.version     = '0.0.1'
+  s.summary     = ''
+  s.authors     = ''
 end
