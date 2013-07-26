@@ -1,17 +1,18 @@
 Dummy::Application.routes.draw do
 
-  match 'page1' => 'home#page1', :as => :page1
-  match 'page2' => 'home#page2', :as => :page2
-  match 'page_with_anchor' => 'home#page_with_anchor', :as => :page_with_anchor
-  match 'page_with_refresh_layoutdiv' => 'home#page_with_refresh_layoutdiv', :as => :page_with_refresh_layoutdiv
-  match 'page_with_railsajax_javascript' => 'home#page_with_railsajax_javascript', :as => :page_with_railsajax_javascript
-  match 'page_with_javascript' => 'home#page_with_javascript', :as => :page_with_javascript
-  match 'page_with_jquery_ready' => 'home#page_with_jquery_ready', :as => :page_with_jquery_ready
-  match 'page_with_flash' => 'home#page_with_flash', :as => :page_with_flash
-  match 'configure' => 'home#configure', :as => :configure
-  match 'redirect' => 'home#redirect', :as => :redirect
-  match 'redirect_with_flash' => 'home#redirect_with_flash', :as => :redirect_with_flash
-  root :to => 'home#index'
+  match 'page1' => 'home#page1', :as => :page1, via: [ :get, :post]
+  match 'page2' => 'home#page2', :as => :page2, via: [ :get, :post]
+  match 'page_with_anchor' => 'home#page_with_anchor', :as => :page_with_anchor, via: [ :get, :post]
+  match 'page_with_refresh_layoutdiv' => 'home#page_with_refresh_layoutdiv', :as => :page_with_refresh_layoutdiv, via: [ :get, :post]
+  match 'page_with_railsajax_javascript' => 'home#page_with_railsajax_javascript', :as => :page_with_railsajax_javascript, via: [ :get, :post]
+  match 'page_with_javascript' => 'home#page_with_javascript', :as => :page_with_javascript, via: [ :get, :post]
+  match 'page_with_jquery_ready' => 'home#page_with_jquery_ready', :as => :page_with_jquery_ready, via: [ :get, :post]
+  match 'page_with_flash' => 'home#page_with_flash', :as => :page_with_flash, via: [ :get, :post]
+  match 'configure' => 'home#configure', :as => :configure, via: [ :get, :post]
+  match 'redirect' => 'home#redirect', :as => :redirect, via: [ :get, :post]
+  match 'redirect_with_flash' => 'home#redirect_with_flash', :as => :redirect_with_flash, via: [ :get, :post]
+  # root :to => 'home#index'
+  match '/' => 'home#index', via: [ :get, :post], as: :root
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
