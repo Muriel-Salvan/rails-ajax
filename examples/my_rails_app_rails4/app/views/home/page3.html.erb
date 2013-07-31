@@ -1,0 +1,4 @@
+<div style="border: 2px solid red;">
+  Page 3 (Last refresh time: <%= Time.now.strftime('%Y-%m-%d %H:%M:%S') %>)
+</div>
+<%= javascript_tag 'alert(\'Javascript executed from Page 3, not specific to rails-ajax. Even if rails-ajax is disabled, this Javascript alert should happen.\');' %>

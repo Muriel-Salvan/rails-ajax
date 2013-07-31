@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MyRailsApp</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+
+    <div style="border: 2px solid black; margin: 10px 10px 10px 10px;">
+      Layout div (Last refresh time: <%= Time.now.strftime('%Y-%m-%d %H:%M:%S') %>)
+
+      <div id="layout_other_div" style="border: 2px solid red; margin: 10px 10px 10px 10px;">
+        <%= render :partial => '/home/other_div' %>
+      </div>
+
+      <div style="border: 2px solid blue; margin: 10px 10px 10px 10px;">
+        Flash messages:
+        <div style="margin: 10px 10px 10px 10px;">
+          <div id="FlashNotice" style="border: 1px solid green;"><%= flash[:notice] %></div>
+          <div id="FlashError" style="border: 1px solid blue;"><%= flash[:error] %></div>
+          <div id="FlashAlert" style="border: 1px solid red;"><%= flash[:alert] %></div>
+        </div>
+      </div>
+
+      <div style="margin: 10px 10px 10px 10px;">
+        <b>Content div:</b>
+        <div id="layout_content" style="border: 2px solid black;">
+          <%= yield %>
+        </div>
+      </div>
+
+      <div style="border: 2px solid green; margin: 10px 10px 10px 10px;">
+        Links updating content and other features:
+        <ul>
+          <li><%= link_to 'Page 1', page1_path %></li>
+          <li><%= link_to 'Page 2', page2_path %></li>
+          <ul>
+            <li><%= link_to 'Page 2 with layout other div refresh', page2_path(:refresh => 1) %></li>
+            <li><%= link_to 'Page 2 with script execution', page2_path(:script => 1) %></li>
+            <li><%= link_to 'Page 2 with flash updates', page2_path(:flash => 1) %></li>
+            <li><%= link_to 'Page 2 with redirect to Page 1', page1_path(:redirect => 1) %></li>
+          </ul>
+          <li><%= link_to 'Page 3 (contains Javascript)', page3_path %></li>
+        </ul>
+      </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<% if (RailsAjax.config.Enabled) %>
+
+// Define callbacks used with asynchronous Ajax answers:
+// railsAjax.beforeSend => railsAjax.success/railsAjax.error => railsAjax.complete
+// There is no need to declare them if there is no use for them.
+
+// Callback called before executing an Ajax call.
+// This callback can return false to cancel the Ajax call.
+//
+// Parameters::
+// * *ioXHR* (_Object_): The XHR object responsible for the Ajax call (can be modified if needed)
+// * *iSettings* (_Object_): Settings used for the Ajax call
+// Return::
+// * _Boolean_: Do we validate the Ajax call ?
+railsAjax.beforeSend = function(ioXHR, iSettings) {
+  //alert('Going to issue a RailsAjax call');
+  return true;
+}
+
+// Callback called when Ajax call is successfull
+//
+// Parameters::
+// * *iXHR* (_Object_): The XHR object responsible for the Ajax call
+// * *iData* (_String_): The received data
+railsAjax.success = function(iXHR, iData) {
+  //alert('Successful RailsAjax call');
+};
+
+// Callback called when Ajax call has failed
+//
+// Parameters::
+// * *iXHR* (_Object_): The xhr object
+// * *iError* (_Object_): The error
+railsAjax.error = function(iXHR, iError) {
+  alert('RailsAjax call failed with error ' + iXHR.status + ' (' + iXHR.statusText + '): ' + iError.name + ' - ' + iError.message);
+}
+
+// Callback called when Ajax call is completed (either successful or in error)
+//
+// Parameters::
+// * *iXHR* (_Object_): The xhr object
+railsAjax.complete = function(iXHR) {
+  //alert('RailsAjax call complete');
+}
+
+<% end %>
