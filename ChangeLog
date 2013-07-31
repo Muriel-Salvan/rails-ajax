@@ -1,5 +1,11 @@
 = Rails-Ajax Release History
 
+== 0.2.0.20130731 (Beta)
+
+* Added support for Rails 4
+* Integrate same test cases running for both Rails 3 and 4
+* Added Travis CI and migrated to last Rails version
+
 == 0.1.2.20130211 (Beta)
 
 * Migrated to Rails 3.2.11 and jQuery >=1.9
