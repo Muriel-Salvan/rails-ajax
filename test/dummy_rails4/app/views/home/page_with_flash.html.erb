@@ -1,0 +1,9 @@
+<div id="page_with_flash">
+  <div id="page_with_flash_RefreshCounter">page_with_flash refresh counter: <%= session[:counters][:page_with_flash] += 1%></div>
+  <%= link_to 'Go to Index from page_with_flash', root_path %>
+  <%= form_tag root_path do %>
+    <%= label_tag :page_with_flash_field_1, 'Text field' %><%= text_field_tag :page_with_flash_field_1 %>
+    <%= submit_tag 'page_with_flash_Button1' %>
+    <%= submit_tag 'page_with_flash_Button2' %>
+  <% end %>
+</div>
