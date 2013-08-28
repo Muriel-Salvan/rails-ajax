@@ -17,7 +17,8 @@ module RailsAjax
         lArgs = _normalize_args(*iArgs, &iBlock)
         if ((request.xhr?) and
             (!lArgs.has_key?(:partial)) and
-            (!lArgs.has_key?(:layout)))
+            (!lArgs.has_key?(:layout))) and
+            (!lArgs.has_key?(:json)))
           logger.debug "[RailsAjax] render: iArgs=#{iArgs.inspect} iBlock?#{iBlock != nil} flash=#{flash.inspect} | Normalized arguments: #{lArgs.inspect}"
 
           # If we have a redirection, use redirect_to
