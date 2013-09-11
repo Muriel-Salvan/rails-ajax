@@ -42,4 +42,10 @@ class HomeController < ApplicationController
     redirect_to root_path
   end
 
+  def json3
+    respond_to do |format|
+      format.json
+    end
+  end
+
 end

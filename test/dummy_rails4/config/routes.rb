@@ -11,6 +11,13 @@ Dummy::Application.routes.draw do
   match 'configure' => 'home#configure', :as => :configure, via: [ :get, :post]
   match 'redirect' => 'home#redirect', :as => :redirect, via: [ :get, :post]
   match 'redirect_with_flash' => 'home#redirect_with_flash', :as => :redirect_with_flash, via: [ :get, :post]
+  match 'json1' => 'home#json1', :as => :json1, via: [ :get, :post]
+  match 'json2' => 'home#json2', :as => :json2, defaults: { format: 'json' }, via: [ :get, :post]
+  match 'json3' => 'home#json3', :as => :json3, via: [ :get, :post]
+  match 'json4' => 'home#json4', :as => :json4, via: [ :get, :post]
+  match 'json5' => 'home#json5', :as => :json5, via: [ :get, :post]
+  match 'json6' => 'home#json6', :as => :json6, defaults: { format: 'json' }, via: [ :get, :post]
+  match 'json7' => 'home#json7', :as => :json7, defaults: { format: 'json' }, via: [ :get, :post]
   # root :to => 'home#index'
   match '/' => 'home#index', via: [ :get, :post], as: :root
 

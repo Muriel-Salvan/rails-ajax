@@ -116,6 +116,35 @@ When /^I manually enter URL "(.*?)"$/ do |iURL|
   visit(iURL)
 end
 
+When(/^I make the Ajax call number "(.*?)"$/) do |iNbr|
+  click_link("json#{iNbr}_link")
+end
+
+Then(/^the filled Ajax content should be number "(.*?)"$/) do |iNbr|
+  lCurrentNbr = 1
+  lMatchingNbr = iNbr.to_i
+  lJsonContentElement = nil
+  loop do
+    begin
+      lJsonContentElement = find("div#json#{lCurrentNbr}_content")
+    rescue Capybara::ElementNotFound
+      lJsonContentElement = nil
+    end
+    if (lJsonContentElement != nil)
+      if (lCurrentNbr == lMatchingNbr)
+        # It should have content
+        lJsonContentElement.text.should == "json#{lMatchingNbr}.1 ok#{lMatchingNbr}.1 json#{lMatchingNbr}.2 ok#{lMatchingNbr}.2"
+      else
+        # It should be empty
+        lJsonContentElement.text.should == ''
+      end
+    end
+    break if (lJsonContentElement == nil)
+    lCurrentNbr += 1
+  end
+
+end
+
 Then /^the refresh counter "(.*?)" should be "(.*?)"$/ do |iCounterName, iCounterValue|
   find("div##{iCounterName}_RefreshCounter").should have_content("#{iCounterName} refresh counter: #{iCounterValue}")
 end

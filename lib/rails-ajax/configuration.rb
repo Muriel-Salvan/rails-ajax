@@ -24,7 +24,7 @@ module RailsAjax
     attr_reader :FlashContainers
 
     # Debug alerts ?
-    # 
+    #
     # _Boolean_
     attr_reader :DebugAlerts
 

@@ -4,6 +4,7 @@ RailsAjax::configure do
   # Enable or disable RailsAjax.
   # If disabled, RailsAjax methods will be useless, and corresponding JavaScript will be removed.
   # When changing this switch, you have to:
+  # * Remove the tmp/cache directory
   # * Precompile your assets in production mode
   # * Restart your server
   enable true
