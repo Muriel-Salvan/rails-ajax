@@ -10,6 +10,15 @@ Feature: Refresh forms
       And the "Page1" parameter "index_field_1" should be "String1"
       And the "Page1" parameter "commit" should be "IndexButton1"
 
+  @javascript
+  Scenario: Refresh all the page content using a form and first button with JavaScript enabled but rails-ajax disabled
+    Given I am on the home page
+    When I submit "String1" using "IndexButtonF"
+    Then the refresh counter "Layout" should be "2"
+      And the refresh counter "Page1" should be "1"
+      And the "Page1" parameter "index_field_1" should be "String1"
+      And the "Page1" parameter "commit" should be "IndexButtonF"
+
   Scenario: Refresh just the page content using a form and first button with JavaScript disabled
     Given I am on the home page
     When I submit "String1" using "IndexButton1"

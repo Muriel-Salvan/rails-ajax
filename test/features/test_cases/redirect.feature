@@ -9,6 +9,14 @@ Feature: Redirect
       And the refresh counter "Page1" should be "1"
       And the location URL should be "/page1"
 
+  @javascript
+  Scenario: Simple redirect with JavaScript enabled but rails-ajax disabled
+    Given I am on the home page
+    When I click on "Redirect" from "no rails-ajax Index"
+    Then the refresh counter "Layout" should be "2"
+      And the refresh counter "Page1" should be "1"
+      And the location URL should be "/page1"
+
   Scenario: Simple redirect with JavaScript disabled
     Given I am on the home page
     When I click on "Redirect" from "Index"

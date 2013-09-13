@@ -1,6 +1,7 @@
 <div id="Index">
   <div id="Index_RefreshCounter">Index refresh counter: <%= session[:counters][:index] += 1%></div>
   <%= link_to 'Go to Page1 from Index', page1_path %>
+  <%= link_to 'Go to Page1 from no rails-ajax Index', page1_path, :use_rails_ajax => false %>
   <%= link_to 'Go to Page1 from targeted Index', page1_path, :target => '_top' %>
   <%= link_to 'Go to page_with_anchor from Index', page_with_anchor_path %>
   <%= link_to 'Go to page_with_anchor from anchored Index', page_with_anchor_path(:anchor => 'Anchor') %>
@@ -10,6 +11,7 @@
   <%= link_to 'Go to page_with_jquery_ready from Index', page_with_jquery_ready_path %>
   <%= link_to 'Go to page_with_flash from Index', page_with_flash_path %>
   <%= link_to 'Go to Redirect from Index', redirect_path %>
+  <%= link_to 'Go to Redirect from no rails-ajax Index', redirect_path, :use_rails_ajax => false %>
   <%= link_to 'Go to Redirect from flashed Index', redirect_with_flash_path %>
   <%= link_to 'Go to IncorrectPage from Index', '/incorrect_page' %>
   <%= form_tag page1_path do %>
@@ -46,6 +48,11 @@
     <%= label_tag :index_field_7, 'Text field to flashed redirect' %><%= text_field_tag :index_field_7 %>
     <%= submit_tag 'IndexButtonD' %>
     <%= submit_tag 'IndexButtonE' %>
+  <% end %>
+  <%= form_tag page1_path, :use_rails_ajax => false do %>
+    <%= label_tag :index_field_1, 'Text field' %><%= text_field_tag :index_field_1 %>
+    <%= submit_tag 'IndexButtonF' %>
+    <%= submit_tag 'IndexButtonG' %>
   <% end %>
   <div id="Index_Parameters">
     <% params.each do |iParamName, iParamValue| %>
