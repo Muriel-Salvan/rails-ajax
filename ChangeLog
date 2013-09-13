@@ -1,5 +1,10 @@
 = Rails-Ajax Release History
 
+== 0.3.0.20130913 (Beta)
+
+* Implemented use_rails_ajax switch.
+* Do not mess with user Ajax anymore
+
 == 0.2.0.20130731 (Beta)
 
 * Added support for Rails 4
