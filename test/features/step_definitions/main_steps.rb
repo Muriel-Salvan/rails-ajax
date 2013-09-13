@@ -120,6 +120,10 @@ When(/^I make the Ajax call number "(.*?)"$/) do |iNbr|
   click_link("json#{iNbr}_link")
 end
 
+When(/^I make the Ajax form call number "(.*?)"$/) do |iNbr|
+  click_button("json#{iNbr}_button")
+end
+
 Then(/^the filled Ajax content should be number "(.*?)"$/) do |iNbr|
   lCurrentNbr = 1
   lMatchingNbr = iNbr.to_i

@@ -54,37 +54,39 @@
   </div>
   <div id="json1">
     <%= link_to 'Send JSON1 Ajax call', json1_path, :remote => true, :id => 'json1_link' %>
+    <%= form_tag json1_path, :remote => true, :id => 'json1_form' do %>
+      <%= submit_tag 'Send JSON1 Ajax call with post', :id => 'json1_button' %>
+    <% end %>
     <div id="json1_content">
     </div>
   </div>
   <div id="json2">
     <%= link_to 'Send JSON2 Ajax call', json2_path, :remote => true, :id => 'json2_link' %>
+    <%= form_tag json2_path, :remote => true, :id => 'json2_form' do %>
+      <%= submit_tag 'Send JSON2 Ajax call with post', :id => 'json2_button' %>
+    <% end %>
     <div id="json2_content">
     </div>
   </div>
   <div id="json3">
-    <%= link_to 'Send JSON3 Ajax call', json3_path, :remote => true, :id => 'json3_link' %>
+    <a href="#" onclick="ajaxCall3()" id="json3_link">Send JSON3 Ajax call</a>
+    <form>
+      <input type="button" onclick="ajaxCall3()" value="Send JSON3 Ajax call with post" id="json3_button">
+    </form>
     <div id="json3_content">
     </div>
   </div>
   <div id="json4">
-    <%= link_to 'Send JSON4 Ajax call', '#', :onclick => 'ajaxCall4()', :id => 'json4_link' %>
+    <%= link_to_function 'Send JSON4 Ajax call', 'ajaxCall4()', :id => 'json4_link' %>
     <div id="json4_content">
     </div>
   </div>
   <div id="json5">
-    <%= link_to 'Send JSON5 Ajax call', json5_path, :id => 'json5_link' %>
+    <%= link_to 'Send JSON5 Ajax call', json5_path, :remote => true, :id => 'json5_link' %>
+    <%= form_tag json5_path, :remote => true, :id => 'json5_form' do %>
+      <%= submit_tag 'Send JSON5 Ajax call with post', :id => 'json5_button' %>
+    <% end %>
     <div id="json5_content">
-    </div>
-  </div>
-  <div id="json6">
-    <a href="#" onclick="ajaxCall6()" id="json6_link" >Send JSON6 Ajax call</a>
-    <div id="json6_content">
-    </div>
-  </div>
-  <div id="json7">
-    <%= link_to_function 'Send JSON7 Ajax call', 'ajaxCall7()', :id => 'json7_link' %>
-    <div id="json7_content">
     </div>
   </div>
 </div>
@@ -102,48 +104,28 @@
     });
   }
 
-  // Send the Ajax call 4
-  function ajaxCall4() {
-    $.ajax({
-      url: "<%= json4_path %>",
-    }).done(function ( data ) {
-      fillWithObject($("#json4_content"), data);
-    });
-    return false;
-  }
-
-  // Send the Ajax call 5
-  function ajaxCall5() {
-    $.ajax({
-      url: "<%= json5_path %>",
-    }).done(function ( data ) {
-      fillWithObject($("#json5_content"), data);
-    });
-    return false;
-  }
-
-  // Send the Ajax call 6
-  function ajaxCall6() {
+  // Send the Ajax call 3
+  function ajaxCall3() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
-        fillWithObject($("#json6_content"), $.parseJSON(xmlhttp.responseText));
+        fillWithObject($("#json3_content"), $.parseJSON(xmlhttp.responseText));
       }
     };
-    xmlhttp.open("GET", "<%= json6_path %>", true);
+    xmlhttp.open("GET", "<%= json3_path %>", true);
     xmlhttp.send();
     return false;
   }
 
-  // Send the Ajax call 7
-  function ajaxCall7() {
+  // Send the Ajax call 4
+  function ajaxCall4() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
-        fillWithObject($("#json7_content"), $.parseJSON(xmlhttp.responseText));
+        fillWithObject($("#json4_content"), $.parseJSON(xmlhttp.responseText));
       }
     };
-    xmlhttp.open("GET", "<%= json7_path %>", true);
+    xmlhttp.open("GET", "<%= json4_path %>", true);
     xmlhttp.send();
     return false;
   }
@@ -154,21 +136,24 @@
     $("#json1_link").bind("ajax:success", function(xhr, data, status) {
       fillWithObject($("#json1_content"), data);
     });
+    $("#json1_form").bind("ajax:success", function(xhr, data, status) {
+      fillWithObject($("#json1_content"), data);
+    });
 
     // Bind JSON2
     $("#json2_link").bind("ajax:success", function(xhr, data, status) {
       fillWithObject($("#json2_content"), data);
     });
-
-    // Bind JSON3
-    $("#json3_link").bind("ajax:success", function(xhr, data, status) {
-      fillWithObject($("#json3_content"), data);
+    $("#json2_form").bind("ajax:success", function(xhr, data, status) {
+      fillWithObject($("#json2_content"), data);
     });
 
     // Bind JSON5
-    $('#json5_link').click(function (event) {
-      ajaxCall5();
-      event.preventDefault(); // Prevent link from following its href
+    $("#json5_link").bind("ajax:success", function(xhr, data, status) {
+      fillWithObject($("#json5_content"), data);
+    });
+    $("#json5_form").bind("ajax:success", function(xhr, data, status) {
+      fillWithObject($("#json5_content"), data);
     });
 
   });

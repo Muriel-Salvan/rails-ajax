@@ -42,10 +42,17 @@ class HomeController < ApplicationController
     redirect_to root_path
   end
 
-  def json3
+  def json2
     respond_to do |format|
       format.json
     end
+  end
+
+  def json5
+    render :json => {
+      'json5.1' => 'ok5.1',
+      'json5.2' => 'ok5.2'
+    }
   end
 
 end

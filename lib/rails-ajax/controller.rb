@@ -18,7 +18,9 @@ module RailsAjax
         if ((request.xhr?) and
             (!lArgs.has_key?(:partial)) and
             (!lArgs.has_key?(:layout)) and
-            (!lArgs.has_key?(:json)))
+            (!lArgs.has_key?(:json)) and
+            (params['format'] != 'json') and
+            (self.content_type != 'application/json'))
           logger.debug "[RailsAjax] render: iArgs=#{iArgs.inspect} iBlock?#{iBlock != nil} flash=#{flash.inspect} | Normalized arguments: #{lArgs.inspect}"
 
           # If we have a redirection, use redirect_to
@@ -26,7 +28,6 @@ module RailsAjax
             # Complete arguments if needed
             # We don't want a special layout for Ajax requests: this was asked using AJAX for a page to be displayed in the main content
             lArgs[:layout] = false
-
             # Render
             lMainPage = nil
             if (iBlock == nil)

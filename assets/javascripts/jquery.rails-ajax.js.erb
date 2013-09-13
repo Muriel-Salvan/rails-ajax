@@ -56,7 +56,7 @@ var railsAjax = {
   init: function() {
     try {
       // Register bindings to every Rails remote element
-      railsAjax.attachAjaxToElements('*[data-remote=true]');
+      railsAjax.attachAjaxToElements('*[data-rails-ajax-remote=true]');
       var lRootURL = History.getRootUrl();
       jQuery(window).bind('statechange', function() {
         try {

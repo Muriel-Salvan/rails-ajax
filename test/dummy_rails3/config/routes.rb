@@ -11,13 +11,11 @@ Dummy::Application.routes.draw do
   match 'configure' => 'home#configure', :as => :configure
   match 'redirect' => 'home#redirect', :as => :redirect
   match 'redirect_with_flash' => 'home#redirect_with_flash', :as => :redirect_with_flash
-  match 'json1' => 'home#json1', :as => :json1
-  match 'json2' => 'home#json2', :as => :json2, defaults: { format: 'json' }
-  match 'json3' => 'home#json3', :as => :json3
-  match 'json4' => 'home#json4', :as => :json4
+  match 'json1' => 'home#json1', :as => :json1, defaults: { format: 'json' }
+  match 'json2' => 'home#json2', :as => :json2
+  match 'json3' => 'home#json3', :as => :json3, defaults: { format: 'json' }
+  match 'json4' => 'home#json4', :as => :json4, defaults: { format: 'json' }
   match 'json5' => 'home#json5', :as => :json5
-  match 'json5' => 'home#json6', :as => :json6, defaults: { format: 'json' }
-  match 'json5' => 'home#json7', :as => :json7, defaults: { format: 'json' }
   root :to => 'home#index'
 
   # The priority is based upon order of creation:

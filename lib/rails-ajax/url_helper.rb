@@ -14,16 +14,18 @@ module RailsAjax
         lName = args.first
         lOptions = args.second || {}
         lHTMLOptions = args.third || {}
-        if (lHTMLOptions[:target] == nil)
+        # Decide if we use rails-ajax or not for this link
+        if RailsAjax::rails_ajaxifiable?(lHTMLOptions)
+          # Adapt the link
           if block_given?
-            return super(lName, lOptions, lHTMLOptions.merge({:remote => true})) do
+            return super(lName, lOptions, lHTMLOptions.merge({ :remote => true, :'data-rails-ajax-remote' => true })) do
               block.call
             end
           else
-            return super(lName, lOptions, lHTMLOptions.merge({:remote => true}))
+            return super(lName, lOptions, lHTMLOptions.merge({ :remote => true, :'data-rails-ajax-remote' => true }))
           end
         elsif block_given?
-          # It is specified to open the link in another frame. Don't use AJAX.
+          # Don't use Rails-Ajax
           return super(*args) do
             block.call
           end
@@ -31,6 +33,7 @@ module RailsAjax
           return super(*args)
         end
       elsif block_given?
+        # Don't use Rails-Ajax
         return super(*args) do
           block.call
         end
