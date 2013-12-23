@@ -49,7 +49,7 @@ RubyPackager::ReleaseInfo.new.
     :has_rdoc => true,
     :test_file => 'test/run.rb',
     :gem_dependencies => [
-      [ 'rails', '~> 3.2.1' ]
+      [ 'rails', '>= 3.2.1' ]
     ]
   ).
   source_forge(
