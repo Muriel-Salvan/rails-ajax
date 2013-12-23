@@ -1,5 +1,9 @@
 = Rails-Ajax Release History
 
+== 0.3.1.20131223 (Beta)
+
+* Corrected Rails dependency. Now works for Rails 4.
+
 == 0.3.0.20130913 (Beta)
 
 * Implemented use_rails_ajax switch.
