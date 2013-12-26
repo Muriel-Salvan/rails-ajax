@@ -137,10 +137,11 @@ Then(/^the filled Ajax content should be number "(.*?)"$/) do |iNbr|
     if (lJsonContentElement != nil)
       if (lCurrentNbr == lMatchingNbr)
         # It should have content
-        lJsonContentElement.text.should == "json#{lMatchingNbr}.1 ok#{lMatchingNbr}.1 json#{lMatchingNbr}.2 ok#{lMatchingNbr}.2"
+        #page.should have_selector("div#json#{lCurrentNbr}_content", :text => "json#{lMatchingNbr}.1 ok#{lMatchingNbr}.1 json#{lMatchingNbr}.2 ok#{lMatchingNbr}.2")
+        lJsonContentElement.should have_content("json#{lMatchingNbr}.1 ok#{lMatchingNbr}.1 json#{lMatchingNbr}.2 ok#{lMatchingNbr}.2")
       else
         # It should be empty
-        lJsonContentElement.text.should == ''
+        lJsonContentElement.text.should be_empty
       end
     end
     break if (lJsonContentElement == nil)
