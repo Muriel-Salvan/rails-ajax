@@ -6,6 +6,7 @@
 * 0.2.0.20130731
 * 0.3.0.20130913
 * 0.3.1.20131223
+* 0.3.2.20131227
 
 = LoveIsGrief (https://github.com/LoveIsGrief)
 

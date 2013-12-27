@@ -1,5 +1,11 @@
 = Rails-Ajax Release History
 
+== 0.3.2.20131227 (Beta)
+
+* Bug correction: link_to used with a block in Rails 4 did not use rails-ajax
+* Added tests for link_to with block syntax
+* Corrected wrong testing in Ajax calls.
+
 == 0.3.1.20131223 (Beta)
 
 * Corrected Rails dependency. Now works for Rails 4.
