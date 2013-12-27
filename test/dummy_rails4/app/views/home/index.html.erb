@@ -3,6 +3,7 @@
   <%= link_to 'Go to Page1 from Index', page1_path %>
   <%= link_to 'Go to Page1 from no rails-ajax Index', page1_path, :use_rails_ajax => false %>
   <%= link_to 'Go to Page1 from targeted Index', page1_path, :target => '_top' %>
+  <%= link_to page1_path do %>Go to Page1 from block Index<% end %>
   <%= link_to 'Go to page_with_anchor from Index', page_with_anchor_path %>
   <%= link_to 'Go to page_with_anchor from anchored Index', page_with_anchor_path(:anchor => 'Anchor') %>
   <%= link_to 'Go to page_with_refresh_layoutdiv from Index', page_with_refresh_layoutdiv_path %>

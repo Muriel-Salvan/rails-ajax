@@ -22,6 +22,19 @@ Feature: Refresh links
       And the refresh counter "Page1" should be "1"
 
   @javascript
+  Scenario: Refresh just the page content using the block syntax with JavaScript enabled
+    Given I am on the home page
+    When I click on "Page1" from "block Index"
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Page1" should be "1"
+
+  Scenario: Refresh just the page content using the block syntax with JavaScript disabled
+    Given I am on the home page
+    When I click on "Page1" from "block Index"
+    Then the refresh counter "Layout" should be "2"
+      And the refresh counter "Page1" should be "1"
+
+  @javascript
   Scenario: Refresh just the page content from a layout link with JavaScript enabled
     Given I am on the home page
     When I click on "Page1" from "Layout"
