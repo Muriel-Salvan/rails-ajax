@@ -9,36 +9,19 @@ module RailsAjax
   module UrlHelper
 
     # Adapt link_to method to handle Ajax queries automatically
-    def link_to(*args, &block)
-      if (RailsAjax.config.Enabled)
-        lName = args.first
-        lOptions = args.second || {}
-        lHTMLOptions = args.third || {}
-        # Decide if we use rails-ajax or not for this link
-        if RailsAjax::rails_ajaxifiable?(lHTMLOptions)
-          # Adapt the link
-          if block_given?
-            return super(lName, lOptions, lHTMLOptions.merge({ :remote => true, :'data-rails-ajax-remote' => true })) do
-              block.call
-            end
-          else
-            return super(lName, lOptions, lHTMLOptions.merge({ :remote => true, :'data-rails-ajax-remote' => true }))
-          end
-        elsif block_given?
-          # Don't use Rails-Ajax
-          return super(*args) do
-            block.call
-          end
-        else
-          return super(*args)
-        end
-      elsif block_given?
-        # Don't use Rails-Ajax
-        return super(*args) do
+    def link_to(name = nil, options = nil, html_options = nil, &block)
+      options, html_options = name, options if block_given?
+      html_options ||= {}
+      if (RailsAjax.config.Enabled and
+          RailsAjax::rails_ajaxifiable?(html_options))
+        html_options.merge!({ :remote => true, :'data-rails-ajax-remote' => true })
+      end
+      if block_given?
+        return super(options, html_options) do
           block.call
         end
       else
-        return super(*args)
+        return super(name, options, html_options)
       end
     end
 
