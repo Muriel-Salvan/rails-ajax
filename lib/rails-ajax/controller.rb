@@ -8,8 +8,6 @@ module RailsAjax
   # Module defining new methods that will be part of every controller
   module Controller
 
-    protected
-
     # Render
     # Adapt to AJAX calls, by returning the following JSON object that will be interpreted by client side JavaScript.
     def render(*iArgs, &iBlock)
