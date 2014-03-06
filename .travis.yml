@@ -1,14 +1,13 @@
 language: ruby
 rvm:
+  # No ruby-head as it is unstable
+  # No Rubinius as it requires extra setup and is not supported yet
+  # No jRuby as it depends on native C extensions
+  # MRI
   - 1.9.2
   - 1.9.3
   - 2.0.0
-  - ruby-head
-  - rbx-19mode
-  # Remove jruby as sqlite3 can't be installed on it
-  # - jruby-18mode
-  # - jruby-19mode
-  # - jruby-head
+  - 2.1.0
 
 before_install:
   # Setup display, used by webkit driver
