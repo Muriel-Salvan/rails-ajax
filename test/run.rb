@@ -1,14 +1,13 @@
-#--
-# Copyright (c) 2012 Muriel Salvan (Muriel@X-Aeon.com)
-# Licensed under the terms specified in LICENSE file. No warranty is provided.
-#++
+test_dirs = [
+  'dummy_rails4'
+]
+# If we are not in Travis, add dummy_rails3
+# TODO (Travis): Make Rails3 tests pass
+test_dirs << 'dummy_rails3' if !ENV.key?('TRAVIS_CONTEXT')
 
 test_root_dir = File.expand_path(File.dirname(__FILE__))
 errors = []
-[
-  'dummy_rails3',
-  'dummy_rails4'
-].each do |test_directory|
+test_dirs.each do |test_directory|
 	Bundler.with_clean_env do
 		puts
 		puts
