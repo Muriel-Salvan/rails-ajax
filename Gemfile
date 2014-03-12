@@ -15,22 +15,3 @@ gem "jquery-rails"
 
 # To use debugger
 # gem 'debugger'
-
-group :test do
-
-  # Rails itself
-  gem 'rails'
-
-  # RSpec
-  gem 'rspec'
-  gem 'rspec-rails'
-
-  # Cucumber
-  gem 'cucumber-rails', :require => false
-  gem 'sqlite3'
-  gem 'database_cleaner'
-
-  # Capybara-webkit
-  gem 'capybara-webkit'
-
-end

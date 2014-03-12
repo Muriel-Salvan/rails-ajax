@@ -11,10 +11,13 @@ gem "jquery-rails"
 # To use debugger
 # gem 'debugger'
 
-group :test do
+# Rails itself
+gem 'rails', '~> 4.0'
 
-  # Rails itself
-  gem 'rails', '~> 4.0'
+# Devise
+gem 'devise'
+
+group :test do
 
   # RSpec
   gem 'rspec'

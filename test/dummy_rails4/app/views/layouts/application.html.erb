@@ -20,10 +20,16 @@
       <%= yield %>
     </div>
     <div id="NewContent"></div>
-    <div id="LayoutDiv1"><%= render :partial => 'layout_div1' %></div>
-    <div id="LayoutDiv2"><%= render :partial => 'layout_div2' %></div>
+    <div id="LayoutDiv1"><%= render :partial => '/home/layout_div1' %></div>
+    <div id="LayoutDiv2"><%= render :partial => '/home/layout_div2' %></div>
     <%= link_to 'Go to Page1 from Layout', page1_path %>
     <%= link_to 'Go to Index from Layout', root_path %>
+    <div>
+      <div>Logged in user: <%= (current_user == nil) ? 'None' : current_user.email %></div>
+      <%= link_to 'Go to Sign up from Layout', new_user_registration_path %>
+      <%= link_to 'Go to Sign in from Layout', new_user_session_path %>
+      <%= link_to 'Go to Sign out from Layout', destroy_user_session_path, :method => :delete %>
+    </div>
   </div>
 
 </body>
