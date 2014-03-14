@@ -1,0 +1,22 @@
+<div id="logged_in_user">Logged in user: <%= (current_user == nil) ? 'None' : current_user.email %></div>
+
+<h2>Sign up</h2>
+
+<div id="SignUp_RefreshCounter">SignUp refresh counter: <%= session[:counters][:sign_up] += 1%></div>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, :autofocus => true %></div>
+
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>

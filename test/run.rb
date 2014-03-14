@@ -17,6 +17,7 @@ test_dirs.each do |test_directory|
 		# cucumber/rails uses RAILS_ROOT to know where the Rails application is.
 		# Force it as otherwise it looks in features/../..
 		ENV['RAILS_ROOT'] = rails_root_dir
+		ENV['RAILS_VERSION'] = rails_root_dir[-1]
 		# Make sure we have correct Gem versions
 		system('bundle install')
 		system('bundle exec cucumber ../features')

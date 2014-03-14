@@ -82,6 +82,22 @@ Given /^I mark the next Ajax call to be cancelled$/ do
   page.execute_script('window.cancelNextBeforeSend = true;')
 end
 
+Given(/^I register user "(.*?)" with password "(.*?)"$/) do |user_email, user_password|
+  visit new_user_registration_path
+  fill_in('Email', :with => user_email)
+  fill_in('Password', :with => user_password)
+  fill_in('Password confirmation', :with => user_password)
+  click_on('Sign up')
+end
+
+Given(/^I register user "(.*?)" with unmatched passwords "(.*?)" and confirmation "(.*?)"$/) do |user_email, user_password, user_password_confirmation|
+  visit new_user_registration_path
+  fill_in('Email', :with => user_email)
+  fill_in('Password', :with => user_password)
+  fill_in('Password confirmation', :with => user_password_confirmation)
+  click_on('Sign up')
+end
+
 When /^I click on "(.*?)" from "(.*?)"$/ do |iLinkName, iContextName|
   click_link("Go to #{iLinkName} from #{iContextName}")
 end
@@ -122,6 +138,26 @@ end
 
 When(/^I make the Ajax form call number "(.*?)"$/) do |iNbr|
   click_button("json#{iNbr}_button")
+end
+
+Then(/^the mismatched passwords error should be displayed$/) do
+  find("div#error_explanation").should have_content((ENV['RAILS_VERSION'] == '3') ? 'Password doesn\'t match confirmation' : 'Password confirmation doesn\'t match Password')
+end
+
+Then(/^user "(.*?)" should not be registered$/) do |user_email|
+  # Check user in database
+  desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(:email => user_email).first : User.find_by(:email => user_email))
+  desired_user.should == nil
+  # Check there is no current user
+  find("div#logged_in_user").should have_content("None")
+end
+
+Then(/^user "(.*?)" should be registered$/) do |user_email|
+  # Check user in database
+  desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(:email => user_email).first : User.find_by(:email => user_email))
+  desired_user.should_not == nil
+  # Check this is the current user
+  find("div#logged_in_user").should have_content("Logged in user: #{desired_user.email}")
 end
 
 Then(/^the filled Ajax content should be number "(.*?)"$/) do |iNbr|

@@ -20,7 +20,8 @@ class ApplicationController < ActionController::Base
         :page_with_jquery_ready => 0,
         :page_with_flash => 0,
         :layout_div1 => 0,
-        :layout_div2 => 0
+        :layout_div2 => 0,
+        :sign_up => 0
       }
     end
   end

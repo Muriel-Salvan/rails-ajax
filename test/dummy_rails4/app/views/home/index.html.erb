@@ -1,4 +1,5 @@
 <div id="Index">
+  <div id="logged_in_user">Logged in user: <%= (current_user == nil) ? 'None' : current_user.email %></div>
   <div id="Index_RefreshCounter">Index refresh counter: <%= session[:counters][:index] += 1%></div>
   <%= link_to 'Go to Page1 from Index', page1_path %>
   <%= link_to 'Go to Page1 from no rails-ajax Index', page1_path, :use_rails_ajax => false %>
