@@ -61,7 +61,8 @@ var railsAjax = {
       jQuery(window).bind('statechange', function() {
         try {
           var lState = History.getState();
-          <%= 'alert(\'[RailsAjax] History statechange triggered #\' + lState.data.id + \' via \' + lState.data.type + \' to \' + lState.url.replace(lRootURL, \'/\') + \' (anchor: \' + lState.data.anchor + \')\');' if (RailsAjax.config.DebugAlerts) %>
+          <%= 'alert(\'[RailsAjax] History statechange triggered #\' + lState.data.id + \' via \' + lState.data.type + \' to \' + lState.url.replace(lRootURL, \'/\') + \' (anchor: \' + lState.data.anchor + \', dataType: \' + lState.data.dataType + \')\');' if (RailsAjax.config.DebugAlerts) %>
+          // console.log('[RailsAjax] History statechange triggered ' + lState.data.type + ' to ' + lState.url.replace(lRootURL, '/') + ' (anchor: ' + lState.data.anchor + ', dataType: ' + lState.data.dataType + ')');
           jQuery.ajax({
             // TODO (History.js): Remove the anchor attribute when History.js handles anchors correctly.
             anchor: lState.data.anchor,
@@ -75,21 +76,26 @@ var railsAjax = {
             // And the callbacks
             // TODO (History.js): Remove the beforeSend callback when anchors will be handled correctly by History.js
             beforeSend: function(ioXHR, iSettings) {
+              // console.log('[RailsAjax] Before sending request');
               // Remember the anchor used
               ioXHR.anchor = iSettings.anchor;
             },
             success: function(iData, iStatus, iXHR) {
+              // console.log('[RailsAjax] Response returned success');
               railsAjax.ajaxSuccess(iXHR, iData);
             },
             error: function(iXHR, iStatus, iError) {
+              // console.log('[RailsAjax] Response returned error');
               railsAjax.ajaxError(iXHR, iError);
             }
           });
         } catch (iError) {
+          // console.log('[RailsAjax] Exception in statechange callback: ' + iError.name + ' - ' + iError.message);
           alert('[RailsAjax] Exception in statechange callback: ' + iError.name + ' - ' + iError.message);
         }
       });
     } catch (iError) {
+      // console.log('[RailsAjax] Exception during railsAjax initialization: ' + iError.name + ' - ' + iError.message);
       alert('[RailsAjax] Exception during railsAjax initialization: ' + iError.name + ' - ' + iError.message);
     }
   },
@@ -149,6 +155,74 @@ var railsAjax = {
     try {
       <%= 'alert(\'[RailsAjax] Ajax success. Loading data: \' + iData);' if (RailsAjax.config.DebugAlerts) %>
 
+      railsAjax.updatePage(iXHR, iData);
+
+      // Call user callbacks
+      if (railsAjax.success != undefined) {
+        try {
+          railsAjax.success(iXHR, iData);
+        } catch (iUserError) {
+          alert('[RailsAjax] Exception in user callback railsAjax.success: ' + iUserError.name + ' - ' + iUserError.message);
+        }
+      }
+      if (railsAjax.complete != undefined) {
+        try {
+          railsAjax.complete(iXHR);
+        } catch (iUserError) {
+          alert('[RailsAjax] Exception in user callback railsAjax.complete: ' + iUserError.name + ' - ' + iUserError.message);
+        }
+      }
+
+      // Handle redirects
+      if ('redirect_to' in iData) {
+        railsAjax.pushNewState(iData.redirect_to, {}, true);
+      }
+
+    } catch (iError) {
+      alert('[RailsAjax] Exception while Ajax success callback: ' + iError.name + ' - ' + iError.message);
+    }
+  },
+
+  // Callback called when Ajax call has failed
+  //
+  // Parameters::
+  // * *iXHR* (_Object_): The xhr object
+  // * *iError* (_Object_): The error
+  ajaxError: function(iXHR, iError) {
+
+    // If the error is a 4xx one, and handled by rails-ajax (using a JSON object), still update the page.
+    if ((iXHR.status >= 400) &&
+        (iXHR.status < 500) &&
+        (iXHR.responseJSON != undefined)) {
+      railsAjax.updatePage(iXHR, iXHR.responseJSON);
+    }
+
+    // Call user callbacks
+    if (railsAjax.error != undefined) {
+      try {
+        railsAjax.error(iXHR, iError);
+      } catch (iUserError) {
+        alert('[RailsAjax] Exception in user callback railsAjax.error: ' + iUserError.name + ' - ' + iUserError.message);
+      }
+    }
+    if (railsAjax.complete != undefined) {
+      try {
+        railsAjax.complete(iXHR);
+      } catch (iUserError) {
+        alert('[RailsAjax] Exception in user callback railsAjax.complete: ' + iUserError.name + ' - ' + iUserError.message);
+      }
+    }
+
+  },
+
+  // Update the page with a given data returned by rails-ajax
+  //
+  // Parameters::
+  // * *iXHR* (_Object_): The XHR object responsible for the Ajax call
+  // * *iData* (_String_): The received data
+  updatePage: function(iXHR, iData) {
+    try {
+
       // 1. Change the window's title if needed
       if ('page_title' in iData) {
         document.title = iData.page_title;
@@ -182,51 +256,8 @@ var railsAjax = {
         });
       }
 
-      // 6. Call user callbacks
-      if (railsAjax.success != undefined) {
-        try {
-          railsAjax.success(iXHR, iData);
-        } catch (iUserError) {
-          alert('[RailsAjax] Exception in user callback railsAjax.success: ' + iUserError.name + ' - ' + iUserError.message);
-        }
-      }
-      if (railsAjax.complete != undefined) {
-        try {
-          railsAjax.complete(iXHR);
-        } catch (iUserError) {
-          alert('[RailsAjax] Exception in user callback railsAjax.complete: ' + iUserError.name + ' - ' + iUserError.message);
-        }
-      }
-
-      // 7. Handle redirects
-      if ('redirect_to' in iData) {
-        railsAjax.pushNewState(iData.redirect_to, {}, true);
-      }
-
     } catch (iError) {
-      alert('[RailsAjax] Exception while Ajax success callback: ' + iError.name + ' - ' + iError.message);
-    }
-  },
-
-  // Callback called when Ajax call has failed
-  //
-  // Parameters::
-  // * *iXHR* (_Object_): The xhr object
-  // * *iError* (_Object_): The error
-  ajaxError: function(iXHR, iError) {
-    if (railsAjax.error != undefined) {
-      try {
-        railsAjax.error(iXHR, iError);
-      } catch (iUserError) {
-        alert('[RailsAjax] Exception in user callback railsAjax.error: ' + iUserError.name + ' - ' + iUserError.message);
-      }
-    }
-    if (railsAjax.complete != undefined) {
-      try {
-        railsAjax.complete(iXHR);
-      } catch (iUserError) {
-        alert('[RailsAjax] Exception in user callback railsAjax.complete: ' + iUserError.name + ' - ' + iUserError.message);
-      }
+      alert('[RailsAjax] Exception while updating page: ' + iError.name + ' - ' + iError.message);
     }
   },
 

@@ -15,6 +15,7 @@
   <%= link_to 'Go to Redirect from Index', redirect_path %>
   <%= link_to 'Go to Redirect from no rails-ajax Index', redirect_path, :use_rails_ajax => false %>
   <%= link_to 'Go to Redirect from flashed Index', redirect_with_flash_path %>
+  <%= link_to 'Go to Error404 from Index', error404_path %>
   <%= link_to 'Go to IncorrectPage from Index', '/incorrect_page' %>
   <%= form_tag page1_path do %>
     <%= label_tag :index_field_1, 'Text field' %><%= text_field_tag :index_field_1 %>
@@ -52,9 +53,19 @@
     <%= submit_tag 'IndexButtonE' %>
   <% end %>
   <%= form_tag page1_path, :use_rails_ajax => false do %>
-    <%= label_tag :index_field_1, 'Text field' %><%= text_field_tag :index_field_1 %>
+    <%= label_tag :index_field_8, 'Text field with rails-ajax disabled' %><%= text_field_tag :index_field_8 %>
     <%= submit_tag 'IndexButtonF' %>
     <%= submit_tag 'IndexButtonG' %>
+  <% end %>
+  <%= form_tag error404_path do %>
+    <%= label_tag :index_field_9, 'Text field to error 404' %><%= text_field_tag :index_field_9 %>
+    <%= submit_tag 'IndexButtonH' %>
+    <%= submit_tag 'IndexButtonI' %>
+  <% end %>
+  <%= form_tag '/incorrect_page' do %>
+    <%= label_tag :index_field_10, 'Text field to incorrect page' %><%= text_field_tag :index_field_10 %>
+    <%= submit_tag 'IndexButtonJ' %>
+    <%= submit_tag 'IndexButtonK' %>
   <% end %>
   <div id="Index_Parameters">
     <% params.each do |iParamName, iParamValue| %>

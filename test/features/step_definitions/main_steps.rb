@@ -3,27 +3,29 @@
 # Licensed under the terms specified in LICENSE file. No warranty is provided.
 #++
 
-Before do |iScenario|
-  lTags = iScenario.instance_variable_get(:@tags).to_sexp.map { |iTagInfo| iTagInfo[1] }
-  @use_javascript = lTags.include?('@javascript')
-  @trap_alerts = lTags.include?('@trap_alerts')
-  @set_callbacks = lTags.include?('@set_callbacks')
+Before do |scenario|
+  tags = scenario.instance_variable_get(:@tags).to_sexp.map { |tag_info| tag_info[1] }
+  @use_javascript = tags.include?('@javascript')
+  @trap_alerts = tags.include?('@trap_alerts')
+  @set_callbacks = tags.include?('@set_callbacks')
 end
 
-After do |iScenario|
-  if @trap_alerts
-    # Check that all alerts have been trapped
-    page.execute_script('window.alert = window.originalAlert;')
-    page.evaluate_script('window.getNextAlertMessage();').should be_nil
-  end
-  if @set_callbacks
-    page.execute_script('window.cancelNextBeforeSend = false;')
-    page.evaluate_script('window.getNextCallback();').should be_nil
-  end
+After do
   if @config_modified
     # Reset the config
     visit '/configure?main_container=Content&flash_container_notice=FlashNotice&flash_container_alert=FlashAlert&flash_container_error=FlashError'
   end
+end
+
+After('@set_callbacks') do
+  page.execute_script('window.cancelNextBeforeSend = false;')
+  page.evaluate_script('window.getNextCallback();').should be_nil
+end
+
+After('@trap_alerts') do
+  # Check that all alerts have been trapped
+  page.execute_script('window.alert = window.originalAlert;')
+  page.evaluate_script('window.getNextAlertMessage();').should be_nil
 end
 
 Given /^I am on the home page$/ do
@@ -47,17 +49,25 @@ Given /^I am on the home page$/ do
       window.callbacksCalled = [];
       window.cancelNextBeforeSend = false;
       railsAjax.beforeSend = function(ioXHR, iSettings) {
+        console.log(\'***************************** beforeSend BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'beforeSend\';
+        console.log(\'***************************** beforeSend END\');
         return !window.cancelNextBeforeSend;
       };
       railsAjax.success = function(iXHR, iData) {
+        console.log(\'***************************** success BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'success\';
+        console.log(\'***************************** success END\');
       };
       railsAjax.error = function(iXHR, iError) {
+        console.log(\'***************************** error BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'error\';
+        console.log(\'***************************** error END\');
       };
       railsAjax.complete = function(iXHR) {
+        console.log(\'***************************** complete BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'complete\';
+        console.log(\'***************************** complete END\');
       };
       window.getNextCallback = function() {
         var lResult = window.callbacksCalled[0];
@@ -96,6 +106,17 @@ Given(/^I register user "(.*?)" with unmatched passwords "(.*?)" and confirmatio
   fill_in('Password', :with => user_password)
   fill_in('Password confirmation', :with => user_password_confirmation)
   click_on('Sign up')
+end
+
+Given(/^User "(.*?)" is registered with password "(.*?)"$/) do |user_email, user_password|
+  FactoryGirl.create(:user, :email => user_email, :password => user_password, :password_confirmation => user_password)
+end
+
+When(/^I sign in user "(.*?)" with password "(.*?)"$/) do |user_email, user_password|
+  visit new_user_session_path
+  fill_in('Email', :with => user_email)
+  fill_in('Password', :with => user_password)
+  click_on('Sign in')
 end
 
 When /^I click on "(.*?)" from "(.*?)"$/ do |iLinkName, iContextName|
@@ -140,6 +161,11 @@ When(/^I make the Ajax form call number "(.*?)"$/) do |iNbr|
   click_button("json#{iNbr}_button")
 end
 
+Then(/^nobody should be signed in$/) do
+  # Check there is no current user
+  find("div#logged_in_user").should have_content("None")
+end
+
 Then(/^the mismatched passwords error should be displayed$/) do
   find("div#error_explanation").should have_content((ENV['RAILS_VERSION'] == '3') ? 'Password doesn\'t match confirmation' : 'Password confirmation doesn\'t match Password')
 end
@@ -152,7 +178,7 @@ Then(/^user "(.*?)" should not be registered$/) do |user_email|
   find("div#logged_in_user").should have_content("None")
 end
 
-Then(/^user "(.*?)" should be registered$/) do |user_email|
+Then(/^user "(.*?)" should be registered and signed in$/) do |user_email|
   # Check user in database
   desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(:email => user_email).first : User.find_by(:email => user_email))
   desired_user.should_not == nil
@@ -219,6 +245,7 @@ Then /^the flash message "(.*?)" should be "(.*?)"/ do |iFlashType, iMessage|
 end
 
 Then /^the "(.*?)" callback should have been called$/ do |iCallbackName|
+  puts page.driver.console_messages.inspect
   page.evaluate_script('window.getNextCallback();').should == iCallbackName
 end
 

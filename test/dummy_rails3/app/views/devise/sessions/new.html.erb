@@ -1,4 +1,8 @@
+<div id="logged_in_user">Logged in user: <%= (current_user == nil) ? 'None' : current_user.email %></div>
+
 <h2>Sign in</h2>
+
+<div id="SignIn_RefreshCounter">SignIn refresh counter: <%= session[:counters][:sign_in] += 1%></div>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div><%= f.label :email %><br />

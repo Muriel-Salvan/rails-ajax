@@ -21,7 +21,9 @@ class ApplicationController < ActionController::Base
         :page_with_flash => 0,
         :layout_div1 => 0,
         :layout_div2 => 0,
-        :sign_up => 0
+        :sign_up => 0,
+        :sign_in => 0,
+        :error_404 => 0
       }
     end
   end

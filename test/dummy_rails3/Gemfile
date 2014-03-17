@@ -32,6 +32,6 @@ group :test do
   gem 'capybara-webkit'
 
   # Factory girl
-  gem "factory_girl_rails"
+  gem 'factory_girl_rails'
 
 end

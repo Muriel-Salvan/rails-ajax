@@ -17,7 +17,7 @@ Dummy::Application.routes.draw do
   match 'json3' => 'home#json3', :as => :json3, defaults: { format: 'json' }, via: [ :get, :post]
   match 'json4' => 'home#json4', :as => :json4, defaults: { format: 'json' }, via: [ :get, :post]
   match 'json5' => 'home#json5', :as => :json5, via: [ :get, :post]
-  # root :to => 'home#index'
+  match 'error404' => 'home#error404', :as => :error404, via: [ :get, :post]
   match '/' => 'home#index', via: [ :get, :post], as: :root
 
   # The priority is based upon order of creation:

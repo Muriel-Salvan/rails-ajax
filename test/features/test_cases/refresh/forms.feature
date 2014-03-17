@@ -10,15 +10,6 @@ Feature: Refresh forms
       And the "Page1" parameter "index_field_1" should be "String1"
       And the "Page1" parameter "commit" should be "IndexButton1"
 
-  @javascript
-  Scenario: Refresh all the page content using a form and first button with JavaScript enabled but rails-ajax disabled
-    Given I am on the home page
-    When I submit "String1" using "IndexButtonF"
-    Then the refresh counter "Layout" should be "2"
-      And the refresh counter "Page1" should be "1"
-      And the "Page1" parameter "index_field_1" should be "String1"
-      And the "Page1" parameter "commit" should be "IndexButtonF"
-
   Scenario: Refresh just the page content using a form and first button with JavaScript disabled
     Given I am on the home page
     When I submit "String1" using "IndexButton1"
@@ -26,6 +17,23 @@ Feature: Refresh forms
       And the refresh counter "Page1" should be "1"
       And the "Page1" parameter "index_field_1" should be "String1"
       And the "Page1" parameter "commit" should be "IndexButton1"
+
+  @javascript
+  Scenario: Refresh all the page content using a form and first button with rails-ajax disabled with JavaScript enabled
+    Given I am on the home page
+    When I submit "String1" using "IndexButtonF"
+    Then the refresh counter "Layout" should be "2"
+      And the refresh counter "Page1" should be "1"
+      And the "Page1" parameter "index_field_8" should be "String1"
+      And the "Page1" parameter "commit" should be "IndexButtonF"
+
+  Scenario: Refresh all the page content using a form and first button with rails-ajax disabled with JavaScript disabled
+    Given I am on the home page
+    When I submit "String1" using "IndexButtonF"
+    Then the refresh counter "Layout" should be "2"
+      And the refresh counter "Page1" should be "1"
+      And the "Page1" parameter "index_field_8" should be "String1"
+      And the "Page1" parameter "commit" should be "IndexButtonF"
 
   @javascript
   Scenario: Refresh just the page content using a form and second button with JavaScript enabled
@@ -114,3 +122,33 @@ Feature: Refresh forms
     Then the refresh counter "Layout" should be "1"
       And the refresh counter "page_with_anchor" should be "1"
       And element "page_with_anchor_Bottom" should be visible
+
+  @javascript @set_callbacks
+  Scenario: Handle 404 error with content from a form with JavaScript enabled
+    Given I am on the home page
+    When I submit "String1" using "IndexButtonH"
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Error404" should be "1"
+      And the location URL should be "/error404"
+      And the "beforeSend" callback should have been called
+      And the "error" callback should have been called
+      And the "complete" callback should have been called
+
+  Scenario: Handle 404 error with content from a form with JavaScript disabled
+    Given I am on the home page
+    When I submit "String1" using "IndexButtonH"
+    Then the refresh counter "Layout" should be "2"
+      And the refresh counter "Error404" should be "1"
+      And the location URL should be "/error404"
+
+  # TODO (capybara-webkit): Uncomment when webkit JS engine will not stop when back-end encounters a RoutingError
+#  @javascript @set_callbacks @allow-rescue
+#  Scenario: Handle Rails 404 error from a form with JavaScript enabled
+#    Given I am on the home page
+#    When I submit "String1" using "IndexButtonJ"
+#    Then the refresh counter "Layout" should be "1"
+#      And the refresh counter "Index" should be "1"
+#      And the location URL should be "/incorrect_page"
+#      And the "beforeSend" callback should have been called
+#      And the "error" callback should have been called
+#      And the "complete" callback should have been called
