@@ -20,6 +20,7 @@ test_dirs.each do |test_directory|
 		ENV['RAILS_VERSION'] = rails_root_dir[-1]
 		# Make sure we have correct Gem versions
 		system('bundle install')
+		system('RAILS_ENV=test bundle exec rake db:test:prepare')
 		system('bundle exec cucumber ../features')
 		exit_status = $?.exitstatus
 		errors << "[#{test_directory}] - cucumber failed with exit status #{exit_status}" if (exit_status != 0)
