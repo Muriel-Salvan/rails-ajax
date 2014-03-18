@@ -150,12 +150,14 @@ var railsAjax = {
   //
   // Parameters::
   // * *iXHR* (_Object_): The XHR object responsible for the Ajax call
-  // * *iData* (_String_): The received data
+  // * *iData* (_String_): The received data (can be undefined for empty contents)
   ajaxSuccess: function(iXHR, iData) {
     try {
       <%= 'alert(\'[RailsAjax] Ajax success. Loading data: \' + iData);' if (RailsAjax.config.DebugAlerts) %>
 
-      railsAjax.updatePage(iXHR, iData);
+      if (iData != undefined) {
+        railsAjax.updatePage(iXHR, iData);
+      }
 
       // Call user callbacks
       if (railsAjax.success != undefined) {
@@ -174,7 +176,8 @@ var railsAjax = {
       }
 
       // Handle redirects
-      if ('redirect_to' in iData) {
+      if ((iData != undefined) &&
+          ('redirect_to' in iData)) {
         railsAjax.pushNewState(iData.redirect_to, {}, true);
       }
 

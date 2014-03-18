@@ -1,8 +1,3 @@
-#--
-# Copyright (c) 2012 Muriel Salvan (Muriel@X-Aeon.com)
-# Licensed under the terms specified in LICENSE file. No warranty is provided.
-#++
-
 class HomeController < ApplicationController
 
   def page_with_refresh_layoutdiv

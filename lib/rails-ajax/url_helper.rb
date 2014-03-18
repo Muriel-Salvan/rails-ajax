@@ -25,6 +25,24 @@ module RailsAjax
       end
     end
 
+    # Adapt button_to method to handle Ajax queries automatically
+    def button_to(name = nil, options = nil, html_options = nil, &block)
+      html_options, options = options, name if block_given?
+      html_options ||= {}
+      if (RailsAjax.config.Enabled and
+          RailsAjax::rails_ajaxifiable?(html_options))
+        html_options.merge!({ :remote => true, :form => {:'data-rails-ajax-remote' => true} })
+      end
+      if block_given?
+        return super(options, html_options) do
+          block.call
+        end
+      else
+        return super(name, options, html_options)
+      end
+    end
+
+
   end
 
 end

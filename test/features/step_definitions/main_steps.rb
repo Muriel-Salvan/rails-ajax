@@ -15,9 +15,13 @@ After do
     # Reset the config
     visit '/configure?main_container=Content&flash_container_notice=FlashNotice&flash_container_alert=FlashAlert&flash_container_error=FlashError'
   end
+  Warden.test_reset!
 end
 
 After('@set_callbacks') do
+  # $stdout.puts '=============== Console messages'
+  # $stdout.puts page.driver.console_messages.join("\n")
+  # $stdout.puts '==============='
   page.execute_script('window.cancelNextBeforeSend = false;')
   page.evaluate_script('window.getNextCallback();').should be_nil
 end
@@ -49,25 +53,17 @@ Given /^I am on the home page$/ do
       window.callbacksCalled = [];
       window.cancelNextBeforeSend = false;
       railsAjax.beforeSend = function(ioXHR, iSettings) {
-        console.log(\'***************************** beforeSend BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'beforeSend\';
-        console.log(\'***************************** beforeSend END\');
         return !window.cancelNextBeforeSend;
       };
       railsAjax.success = function(iXHR, iData) {
-        console.log(\'***************************** success BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'success\';
-        console.log(\'***************************** success END\');
       };
       railsAjax.error = function(iXHR, iError) {
-        console.log(\'***************************** error BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'error\';
-        console.log(\'***************************** error END\');
       };
       railsAjax.complete = function(iXHR) {
-        console.log(\'***************************** complete BEGIN\');
         window.callbacksCalled[window.callbacksCalled.length] = \'complete\';
-        console.log(\'***************************** complete END\');
       };
       window.getNextCallback = function() {
         var lResult = window.callbacksCalled[0];
@@ -108,12 +104,19 @@ Given(/^I register user "(.*?)" with unmatched passwords "(.*?)" and confirmatio
   click_on('Sign up')
 end
 
-Given(/^User "(.*?)" is registered with password "(.*?)"$/) do |user_email, user_password|
-  FactoryGirl.create(:user, :email => user_email, :password => user_password, :password_confirmation => user_password)
+Given(/^user "(.*?)" is registered with password "(.*?)"$/) do |user_email, user_password|
+  @registered_user = FactoryGirl.create(:user, :email => user_email, :password => user_password, :password_confirmation => user_password)
+end
+
+Given(/^user is signed in$/) do
+  login_as(@registered_user, :scope => :user)
+end
+
+When(/^user signs out$/) do
+  find_button('Sign out').click
 end
 
 When(/^I sign in user "(.*?)" with password "(.*?)"$/) do |user_email, user_password|
-  visit new_user_session_path
   fill_in('Email', :with => user_email)
   fill_in('Password', :with => user_password)
   click_on('Sign in')
@@ -245,7 +248,6 @@ Then /^the flash message "(.*?)" should be "(.*?)"/ do |iFlashType, iMessage|
 end
 
 Then /^the "(.*?)" callback should have been called$/ do |iCallbackName|
-  puts page.driver.console_messages.inspect
   page.evaluate_script('window.getNextCallback();').should == iCallbackName
 end
 

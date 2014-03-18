@@ -27,7 +27,7 @@
     <div>
       <%= link_to 'Go to Sign up from Layout', new_user_registration_path %>
       <%= link_to 'Go to Sign in from Layout', new_user_session_path %>
-      <%= link_to 'Go to Sign out from Layout', destroy_user_session_path, :method => :delete %>
+      <%= button_to 'Sign out', destroy_user_session_path, :method => :delete %>
     </div>
   </div>
 

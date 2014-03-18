@@ -65,38 +65,119 @@ Feature: Devise
       And the location URL should be "/users/sign_in"
       And the refresh counter "Layout" should be "2"
 
-  @javascript
+  @javascript @set_callbacks
   Scenario: User signs in with JavaScript enabled
-    Given User "test@x-aeon.com" is registered with password "testtest"
-    When I sign in user "test@x-aeon.com" with password "testtest"
-    Then the refresh counter "Index" should be "1"
+    Given I am on the home page
+      And user "test@x-aeon.com" is registered with password "testtest"
+    When I click on "Sign in" from "Layout"
+      And I sign in user "test@x-aeon.com" with password "testtest"
+    Then the refresh counter "Index" should be "2"
       And the location URL should be "/"
       And the refresh counter "Layout" should be "1"
       And user "test@x-aeon.com" should be registered and signed in
       And the flash message "Notice" should be "Signed in successfully."
+      # GET /users/sign_in
+      And the "beforeSend" callback should have been called
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+      # POST /users/sign_in
+      And the "beforeSend" callback should have been called
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+      # GET / (redirect)
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
 
   Scenario: User signs in with JavaScript disabled
-    Given User "test@x-aeon.com" is registered with password "testtest"
-    When I sign in user "test@x-aeon.com" with password "testtest"
-    Then the refresh counter "Index" should be "1"
+    Given I am on the home page
+      And user "test@x-aeon.com" is registered with password "testtest"
+    When I click on "Sign in" from "Layout"
+      And I sign in user "test@x-aeon.com" with password "testtest"
+    Then the refresh counter "Index" should be "2"
       And the location URL should be "/"
-      And the refresh counter "Layout" should be "2"
+      And the refresh counter "Layout" should be "3"
       And user "test@x-aeon.com" should be registered and signed in
       And the flash message "Notice" should be "Signed in successfully."
 
-  @javascript
+  @javascript @set_callbacks
   Scenario: User signs in with wrong password with JavaScript enabled
-    Given User "test@x-aeon.com" is registered with password "testtest"
-    When I sign in user "test@x-aeon.com" with password "badpassword"
+    Given I am on the home page
+      And user "test@x-aeon.com" is registered with password "testtest"
+    When I click on "Sign in" from "Layout"
+      And I sign in user "test@x-aeon.com" with password "badpassword"
     Then the refresh counter "SignIn" should be "1"
       And the location URL should be "/users/sign_in"
       And the refresh counter "Layout" should be "1"
       And nobody should be signed in
+      # GET /users/sign_in
+      And the "beforeSend" callback should have been called
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+      # POST /users/sign_in
+      And the "beforeSend" callback should have been called
+      And the "error" callback should have been called
+      And the "complete" callback should have been called
 
   Scenario: User signs in with wrong password with JavaScript disabled
-    Given User "test@x-aeon.com" is registered with password "testtest"
-    When I sign in user "test@x-aeon.com" with password "badpassword"
+    Given I am on the home page
+      And user "test@x-aeon.com" is registered with password "testtest"
+    When I click on "Sign in" from "Layout"
+      And I sign in user "test@x-aeon.com" with password "badpassword"
     Then the refresh counter "SignIn" should be "2"
       And the location URL should be "/users/sign_in"
+      And the refresh counter "Layout" should be "3"
+      And nobody should be signed in
+
+  @javascript @set_callbacks
+  Scenario: User signs out with JavaScript enabled
+    Given I am on the home page
+      And user "test@x-aeon.com" is registered with password "testtest"
+      And user is signed in
+    When user signs out
+    Then the refresh counter "Index" should be "2"
+      And the location URL should be "/"
+      And the refresh counter "Layout" should be "1"
+      And nobody should be signed in
+      # POST /users/sign_out
+      And the "beforeSend" callback should have been called
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+      # GET / (redirect)
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+      And the flash message "Notice" should be "Signed out successfully."
+
+  Scenario: User signs out with JavaScript disabled
+    Given I am on the home page
+      And user "test@x-aeon.com" is registered with password "testtest"
+      And user is signed in
+    When user signs out
+    Then the refresh counter "Index" should be "2"
+      And the location URL should be "/"
+      And the refresh counter "Layout" should be "2"
+      And nobody should be signed in
+      And the flash message "Notice" should be "Signed out successfully."
+
+  @javascript @set_callbacks
+  Scenario: Unsigned user signs out with JavaScript enabled
+    Given I am on the home page
+    When user signs out
+    Then the refresh counter "Index" should be "2"
+      And the location URL should be "/"
+      And the refresh counter "Layout" should be "1"
+      And nobody should be signed in
+      # POST /users/sign_out
+      And the "beforeSend" callback should have been called
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+      # GET / (redirect)
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+
+  Scenario: Unsigned user signs out with JavaScript disabled
+    Given I am on the home page
+    When user signs out
+    Then the refresh counter "Index" should be "2"
+      And the location URL should be "/"
       And the refresh counter "Layout" should be "2"
       And nobody should be signed in

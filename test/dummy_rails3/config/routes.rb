@@ -1,7 +1,6 @@
 Dummy::Application.routes.draw do
 
-  devise_for :users
-
+  devise_for :users, controllers: { sessions: 'sessions' }
   match 'page1' => 'home#page1', :as => :page1
   match 'page2' => 'home#page2', :as => :page2
   match 'page_with_anchor' => 'home#page_with_anchor', :as => :page_with_anchor
