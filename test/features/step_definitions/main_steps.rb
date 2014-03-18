@@ -1,8 +1,3 @@
-#--
-# Copyright (c) 2012 Muriel Salvan (Muriel@X-Aeon.com)
-# Licensed under the terms specified in LICENSE file. No warranty is provided.
-#++
-
 Around('@no_rails3') do |scenario, block|
   block.call unless (ENV['RAILS_VERSION'] == '3')
 end
@@ -170,6 +165,19 @@ end
 
 When(/^I make the Ajax form call number "(.*?)"$/) do |iNbr|
   click_button("json#{iNbr}_button")
+end
+
+When(/^I wait for "(.*?)" callbacks to be triggered$/) do |nbr_callbacks|
+  nbr_callbacks = nbr_callbacks.to_i
+  Timeout::timeout(5) do
+    while (page.evaluate_script('window.callbacksCalled.length;') < nbr_callbacks)
+      sleep 1
+    end
+  end
+end
+
+Then(/^the page should be empty$/) do
+  page.body.strip.should be_empty
 end
 
 Then(/^nobody should be signed in$/) do

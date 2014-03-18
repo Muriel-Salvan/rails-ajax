@@ -17,6 +17,9 @@
   <%= link_to 'Go to Redirect from flashed Index', redirect_with_flash_path %>
   <%= link_to 'Go to Error404 from Index', error404_path %>
   <%= link_to 'Go to IncorrectPage from Index', '/incorrect_page' %>
+  <%= link_to 'Go to empty_page_204 from Index', empty_page_path(204) %>
+  <%= link_to 'Go to empty_page_404 from Index', empty_page_path(404) %>
+  <%= link_to 'Go to empty_page_500 from Index', empty_page_path(500) %>
   <%= form_tag page1_path do %>
     <%= label_tag :index_field_1, 'Text field' %><%= text_field_tag :index_field_1 %>
     <%= submit_tag 'IndexButton1' %>

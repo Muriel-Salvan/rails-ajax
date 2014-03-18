@@ -59,4 +59,8 @@ class HomeController < ApplicationController
     render :status => 404
   end
 
+  def empty_page
+    head :status => params[:status]
+  end
+
 end

@@ -143,3 +143,57 @@ Feature: Refresh links
     Then the refresh counter "Layout" should be "2"
       And the refresh counter "Error404" should be "1"
       And the location URL should be "/error404"
+
+  @javascript @set_callbacks
+  Scenario: Handles an empty 204 page with JavaScript enabled
+    Given I am on the home page
+    When I click on "empty_page_204" from "Index"
+      And I wait for "3" callbacks to be triggered
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Index" should be "1"
+      And the location URL should be "/empty_page/204"
+      And the "beforeSend" callback should have been called
+      And the "success" callback should have been called
+      And the "complete" callback should have been called
+
+  Scenario: Handles an empty 204 page with JavaScript disabled
+    Given I am on the home page
+    When I click on "empty_page_204" from "Index"
+    Then the page should be empty
+      And the location URL should be "/empty_page/204"
+
+  @javascript @set_callbacks
+  Scenario: Handles an empty 404 page with JavaScript enabled
+    Given I am on the home page
+    When I click on "empty_page_404" from "Index"
+      And I wait for "3" callbacks to be triggered
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Index" should be "1"
+      And the location URL should be "/empty_page/404"
+      And the "beforeSend" callback should have been called
+      And the "error" callback should have been called
+      And the "complete" callback should have been called
+
+  Scenario: Handles an empty 404 page with JavaScript disabled
+    Given I am on the home page
+    When I click on "empty_page_404" from "Index"
+    Then the page should be empty
+      And the location URL should be "/empty_page/404"
+
+  @javascript @set_callbacks
+  Scenario: Handles an empty 500 page with JavaScript enabled
+    Given I am on the home page
+    When I click on "empty_page_500" from "Index"
+      And I wait for "3" callbacks to be triggered
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Index" should be "1"
+      And the location URL should be "/empty_page/500"
+      And the "beforeSend" callback should have been called
+      And the "error" callback should have been called
+      And the "complete" callback should have been called
+
+  Scenario: Handles an empty 500 page with JavaScript disabled
+    Given I am on the home page
+    When I click on "empty_page_500" from "Index"
+    Then the page should be empty
+      And the location URL should be "/empty_page/500"
