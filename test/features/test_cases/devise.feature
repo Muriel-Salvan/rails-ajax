@@ -105,6 +105,7 @@ Feature: Devise
       And user "test@x-aeon.com" is registered with password "testtest"
     When I click on "Sign in" from "Layout"
       And I sign in user "test@x-aeon.com" with password "badpassword"
+      And I wait for "6" callbacks to be triggered
     Then the refresh counter "SignIn" should be "1"
       And the location URL should be "/users/sign_in"
       And the refresh counter "Layout" should be "1"
