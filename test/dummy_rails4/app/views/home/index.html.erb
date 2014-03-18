@@ -109,6 +109,10 @@
     <div id="json5_content">
     </div>
   </div>
+  <%= button_to 'Button to Page1 from Index', page1_path %>
+  <%= button_to 'Button to Page1 from no rails-ajax Index', page1_path, :use_rails_ajax => false %>
+  <%= button_to 'Button to Page1 from targeted Index', page1_path, :target => '_top' %>
+  <%= button_to page1_path do %>Button to Page1 from block Index<% end %>
 </div>
 
 <%= javascript_tag do %>

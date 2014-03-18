@@ -3,6 +3,10 @@
 # Licensed under the terms specified in LICENSE file. No warranty is provided.
 #++
 
+Around('@no_rails3') do |scenario, block|
+  block.call unless (ENV['RAILS_VERSION'] == '3')
+end
+
 Before do |scenario|
   tags = scenario.instance_variable_get(:@tags).to_sexp.map { |tag_info| tag_info[1] }
   @use_javascript = tags.include?('@javascript')
@@ -124,6 +128,10 @@ end
 
 When /^I click on "(.*?)" from "(.*?)"$/ do |iLinkName, iContextName|
   click_link("Go to #{iLinkName} from #{iContextName}")
+end
+
+When(/^I click the button "(.*?)" from "(.*?)"$/) do |link_name, context_name|
+  find_button("Button to #{link_name} from #{context_name}").click
 end
 
 When /^I submit "([^"]*?)" using "([^"]*?)"$/ do |iTextValue, iButtonName|
