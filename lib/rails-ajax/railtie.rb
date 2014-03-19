@@ -1,8 +1,3 @@
-#--
-# Copyright (c) 2012 Muriel Salvan (Muriel@X-Aeon.com)
-# Licensed under the terms specified in LICENSE file. No warranty is provided.
-#++
-
 module RailsAjax
 
   # Class defining how Rails-Ajax is plugged into Rails
@@ -13,7 +8,7 @@ module RailsAjax
       load "#{RailsAjax.root}/tasks/rails-ajax_tasks.rake"
     end
 
-    initializer :'rails-ajax.initialize' do |ioApp|
+    initializer :'rails-ajax.initialize' do |app|
       # Require all files
       require 'rails-ajax/configuration'
       require 'rails-ajax/rails-ajax'
@@ -23,7 +18,7 @@ module RailsAjax
       require 'rails-ajax/action_controller/base'
       require 'rails-ajax/action_view/base'
       # Add a new assets path for javascript
-      ioApp.config.assets.paths << "#{RailsAjax.root}/assets/javascripts"
+      app.config.assets.paths << "#{RailsAjax.root}/assets/javascripts"
     end
 
   end

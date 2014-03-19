@@ -1,8 +1,3 @@
-#--
-# Copyright (c) 2012 Muriel Salvan (Muriel@X-Aeon.com)
-# Licensed under the terms specified in LICENSE file. No warranty is provided.
-#++
-
 module RailsAjax
 
   # Module defining new methods that will be part of every controller
@@ -10,75 +5,60 @@ module RailsAjax
 
     # Render
     # Adapt to AJAX calls, by returning the following JSON object that will be interpreted by client side JavaScript.
-    def render(*iArgs, &iBlock)
-      if (RailsAjax.config.Enabled)
-        lArgs = _normalize_args(*iArgs, &iBlock)
+    def render(*options, &block)
+      if (RailsAjax.config.enabled?)
+        args = _normalize_args(*options, &block)
         if ((request.xhr?) and
-            (!lArgs.has_key?(:partial)) and
-            (!lArgs.has_key?(:layout)) and
-            (!lArgs.has_key?(:json)) and
+            (!args.has_key?(:partial)) and
+            (!args.has_key?(:layout)) and
+            (!args.has_key?(:json)) and
             (params['format'] != 'json') and
             (self.content_type != 'application/json'))
-          logger.debug "[RailsAjax] render: iArgs=#{iArgs.inspect} iBlock?#{iBlock != nil} flash=#{flash.inspect} | Normalized arguments: #{lArgs.inspect}"
+          logger.debug "[RailsAjax] render: options=#{options.inspect} block?#{block != nil} flash=#{flash.inspect} | Normalized arguments: #{args.inspect}"
 
           # If we have a redirection, use redirect_to
-          if (lArgs[:location] == nil)
+          if (args[:location] == nil)
             # Complete arguments if needed
             # We don't want a special layout for Ajax requests: this was asked using AJAX for a page to be displayed in the main content
-            lArgs[:layout] = false
+            args[:layout] = false
             # Render
-            lMainPage = nil
-            if (iBlock == nil)
-              lMainPage = render_to_string(lArgs)
-            else
-              lMainPage = render_to_string(lArgs) do
-                iBlock.call
-              end
-            end
+            main_content = render_to_string(args, &block)
 
             # Send JSON result
             # Use 'application/json'
             self.content_type = 'application/json'
             self.response_body = get_json_response(
-              :css_to_refresh => {
-                RailsAjax::config.MainContainer => lMainPage
+              :elements_to_refresh => {
+                RailsAjax.config.main_container => main_content
               }
             ).to_json
-          elsif (lArgs[:status] == nil)
-            redirect_to lArgs[:location]
+          elsif (args[:status] == nil)
+            redirect_to args[:location]
           else
-            redirect_to lArgs[:location], lArgs[:status]
+            redirect_to args[:location], args[:status]
           end
 
-        elsif (iBlock == nil)
-          super(*iArgs)
         else
-          super(*iArgs) do
-            iBlock.call
-          end
+          super(*options, &block)
         end
-      elsif (iBlock == nil)
-        super(*iArgs)
       else
-        super(*iArgs) do
-          iBlock.call
-        end
+        super(*options, &block)
       end
 
     end
 
     # Render a redirection
     # Adapt to AJAX calls
-    def redirect_to(iOptions = {}, iResponseStatus = {})
-      if (RailsAjax.config.Enabled and request.xhr?)
-        logger.debug "[RailsAjax] redirect_to: iOptions=#{iOptions.inspect} iResponseStatus=#{iResponseStatus.inspect}"
+    def redirect_to(options = {}, response_status = {})
+      if (RailsAjax.config.enabled? and request.xhr?)
+        logger.debug "[RailsAjax] redirect_to: options=#{options.inspect} response_status=#{response_status.inspect}"
         # Use 'application/json'
         self.content_type = 'application/json'
         self.response_body = get_json_response(
-          :redirect_to => url_for(iOptions)
+          :redirect_to => url_for(options)
         ).to_json
       else
-        super(iOptions, iResponseStatus)
+        super(options, response_status)
       end
     end
 
@@ -87,15 +67,13 @@ module RailsAjax
     # Mark given DOM elements (selected using a CSS selector) to be refreshed with a partial's content
     #
     # Parameters::
-    # * *iCSSSelector* (_String_): The CSS selector to be used to refresh elements
-    # * *iPartialName* (_String_): Name of the partial to be used to refresh these elements
-    def refresh_dom_with_partial(iCSSSelector, iPartialName)
-      if RailsAjax.config.Enabled
-        logger.debug "[RailsAjax] Mark partial #{iPartialName} to be refreshed in #{iCSSSelector}"
-        if (defined?(@PartialsToRefresh) == nil)
-          @PartialsToRefresh = {}
-        end
-        @PartialsToRefresh[iCSSSelector] = iPartialName
+    # * *css_selector* (_String_): The CSS selector to be used to refresh elements
+    # * *partial_name* (_String_): Name of the partial to be used to refresh these elements
+    def refresh_dom_with_partial(css_selector, partial_name)
+      if RailsAjax.config.enabled?
+        logger.debug "[RailsAjax] Mark partial #{partial_name} to be refreshed in #{css_selector}"
+        @partials_to_refresh = {} if (defined?(@partials_to_refresh) == nil)
+        @partials_to_refresh[css_selector] = partial_name
       end
     end
 
@@ -103,14 +81,12 @@ module RailsAjax
     # This is used to execute special Ajax handling that is not needed in case the same request is made without Ajax
     #
     # Parameters::
-    # * *iJS* (_String_): Javascript to be executed
-    def execute_javascript(iJS)
-      if RailsAjax.config.Enabled
-        logger.debug "[RailsAjax] Add javascript to be executed: #{iJS[0..255]}"
-        if (defined?(@JSToExecute) == nil)
-          @JSToExecute = []
-        end
-        @JSToExecute << iJS
+    # * *js_code* (_String_): Javascript to be executed
+    def execute_javascript(js_code)
+      if RailsAjax.config.enabled?
+        logger.debug "[RailsAjax] Add javascript to be executed: #{js_code[0..255]}"
+        @js_to_execute = [] if (defined?(@js_to_execute) == nil)
+        @js_to_execute << js_code
       end
     end
 
@@ -118,7 +94,8 @@ module RailsAjax
 
     # Get the JSON object that will be sent to an Ajax request.
     # Include the partials marked to be refreshed.
-    # Include Javascripts to be executed
+    # Include Javascripts to be executed.
+    # Include Flash messages.
     # Structure of the JSON object:
     # * *:div_contents* (<em>map<String,String></em>): The content of DOM elements to be replaced, indexed by CSS selector.
     # * *:page_title* (_String_): The new page title
@@ -126,28 +103,28 @@ module RailsAjax
     # * *:js_to_execute* (<em>list<String></em>): Javascripts to be executed
     #
     # Parameters::
-    # * *iOptions* (<em>map<Symbol,Object></em>): Options [optional = {}]
-    #   * *:css_to_refresh* (<em>map<String,String></em>): List of CSS to be refreshed, along with their HTML code [optional = {}]
+    # * *options* (<em>map<Symbol,Object></em>): Options [optional = {}]
+    #   * *:elements_to_refresh* (<em>map<String,String></em>): List of elements to be refreshed (HTML code), indexed by their CSS selector [optional = {}]
     #   * *:redirect_to* (_String_): URL to redirect to [optional = nil]
     # Return::
     # * <em>map<Object,Object></em>: The corresponding JSON data
-    def get_json_response(iOptions = {})
-      rJSON = {}
+    def get_json_response(options = {})
+      json_result = {}
 
-      lDivContents = iOptions[:css_to_refresh] || {}
-      if (defined?(@PartialsToRefresh) != nil)
-        @PartialsToRefresh.each do |iCSSSelector, iPartialName|
-          lDivContents[iCSSSelector] = render_to_string(:partial => iPartialName)
+      elements_contents = options[:elements_to_refresh] || {}
+      if (defined?(@partials_to_refresh) != nil)
+        @partials_to_refresh.each do |css_selector, partial_name|
+          elements_contents[css_selector] = render_to_string(:partial => partial_name)
         end
       end
-      RailsAjax::config.FlashContainers.each do |iSymFlashType, iSelector|
-        lDivContents[iSelector] = flash[iSymFlashType]
+      RailsAjax.config.flash_containers.each do |flash_type, css_selector|
+        elements_contents[css_selector] = flash[flash_type]
       end
-      rJSON[:js_to_execute] = @JSToExecute if (defined?(@JSToExecute) != nil)
-      rJSON[:div_contents] = lDivContents
-      rJSON[:redirect_to] = iOptions[:redirect_to] if (iOptions[:redirect_to] != nil)
+      json_result[:js_to_execute] = @js_to_execute if (defined?(@js_to_execute) != nil)
+      json_result[:div_contents] = elements_contents
+      json_result[:redirect_to] = options[:redirect_to] if (options[:redirect_to] != nil)
 
-      return rJSON
+      return json_result
     end
 
   end

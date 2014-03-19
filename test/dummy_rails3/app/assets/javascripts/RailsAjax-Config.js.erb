@@ -2,7 +2,7 @@
 // railsAjax.beforeSend => railsAjax.success/railsAjax.error => railsAjax.complete
 // There is no need to declare them if there is no use for them.
 
-<% if (RailsAjax.config.Enabled) %>
+<% if (RailsAjax.config.enabled?) %>
 
 // Callback called before executing an Ajax call.
 // This callback can return false to cancel the Ajax call.

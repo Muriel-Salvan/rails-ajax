@@ -26,12 +26,12 @@ class HomeController < ApplicationController
   end
 
   def configure
-    lParams = params
+    json_params = params
     # Use this action to modify the RailsAjax configuration
-    RailsAjax::configure do
-      main_container "##{lParams['main_container']}" if (lParams['main_container'] != nil)
-      [ 'notice', 'alert', 'error' ].each do |iFlashType|
-        flash_containers(iFlashType.to_sym => "##{lParams["flash_container_#{iFlashType}"]}") if (lParams["flash_container_#{iFlashType}"] != nil)
+    RailsAjax.configure do
+      main_container "##{json_params['main_container']}" if (json_params['main_container'] != nil)
+      [ 'notice', 'alert', 'error' ].each do |flash_type|
+        flash_containers(flash_type.to_sym => "##{json_params["flash_container_#{flash_type}"]}") if (json_params["flash_container_#{flash_type}"] != nil)
       end
     end
     redirect_to root_path

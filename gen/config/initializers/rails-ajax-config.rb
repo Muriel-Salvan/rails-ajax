@@ -1,5 +1,5 @@
 # RailsAjax configuration
-RailsAjax::configure do
+RailsAjax.configure do
 
   # Enable or disable RailsAjax.
   # If disabled, RailsAjax methods will be useless, and corresponding JavaScript will be removed.

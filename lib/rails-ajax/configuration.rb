@@ -1,8 +1,3 @@
-#--
-# Copyright (c) 2012 Muriel Salvan (Muriel@X-Aeon.com)
-# Licensed under the terms specified in LICENSE file. No warranty is provided.
-#++
-
 module RailsAjax
 
   # Class used to configure and store the configuration of RailsAjax
@@ -10,63 +5,65 @@ module RailsAjax
 
     # Indicate if RailsAjax is enabled
     #
-    # _Boolean_
-    attr_reader :Enabled
-
-    # The main container
-    #
-    # _String_
-    attr_reader :MainContainer
-
-    # The flash containers
-    #
-    # <em>map< Symbol, String ></em>
-    attr_reader :FlashContainers
+    # Return::
+    # * _Boolean_: Is rails-ajax enabled?
+    def enabled?
+      return @enabled
+    end
 
     # Debug alerts ?
     #
-    # _Boolean_
-    attr_reader :DebugAlerts
+    # Return::
+    # * _Boolean_: Do we switch on debug alerts?
+    def debug_alerts?
+      return @debug_alerts
+    end
 
     # Constructor
     def initialize
       # Set default values here
-      @Enabled = true
-      @MainContainer = 'body'
-      @FlashContainers = {}
-      @DebugAlerts = false
+      @enabled = true
+      @main_container = 'body'
+      @flash_containers = {}
+      @debug_alerts = false
     end
 
     # Do we activate RailsAjax ?
     #
     # Parameters::
-    # * *iSwitch* (_Boolean_): Do we activate RailsAjax ?
-    def enable(iSwitch)
-      @Enabled = iSwitch
+    # * *switch* (_Boolean_): Do we activate RailsAjax ?
+    def enable(switch)
+      @enabled = switch
     end
 
-    # Define the main container
+    # Define the main container if provided, and return it
     #
     # Parameters::
-    # * *iSelector* (_String_): Selector used to identify the container
-    def main_container(iSelector)
-      @MainContainer = iSelector
+    # * *selector* (_String_): Selector used to identify the container [optional = nil]
+    # Return::
+    # * _String_: The CSS selector of the main container
+    def main_container(selector = nil)
+      @main_container = selector if (selector != nil)
+      return @main_container
     end
 
-    # Define the flash containers
+    # Define the flash containers (add them to already present ones) if provided, and return them
     #
     # Parameters::
-    # * *iMapSelectors* (<em>map<Symbol,String></em>): The map of selectors, per flash message type (:alert, :notice...)
-    def flash_containers(iMapSelectors)
-      @FlashContainers.merge!(iMapSelectors)
+    # * *selectors_map* (<em>map<Symbol,String></em>): The map of selectors, per flash message type (:alert, :notice...)
+    # Return::
+    # * <em>map<Symbol,String></em>: The map of selectors [optional = nil]
+    def flash_containers(selectors_map = nil)
+      @flash_containers.merge!(selectors_map) if (selectors_map != nil)
+      return @flash_containers
     end
 
     # Do we activate debugging alerts ?
     #
     # Parameters::
-    # * *iSwitch* (_Boolean_): Do we activate debugging alerts ?
-    def debug_alerts(iSwitch)
-      @DebugAlerts = iSwitch
+    # * *switch* (_Boolean_): Do we activate debugging alerts ?
+    def debug_alerts(switch)
+      @debug_alerts = switch
     end
 
   end

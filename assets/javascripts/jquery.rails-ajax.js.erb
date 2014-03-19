@@ -1,4 +1,4 @@
-<% if (RailsAjax.config.Enabled) %>
+<% if (RailsAjax.config.enabled?) %>
 
 //=========================================
 // Browser detection code (removed from jQuery >=1.9):
@@ -42,8 +42,6 @@ if ( browser.chrome ) {
 jQuery.browser = browser;
 //===========================================
 
-
-
 // Encapsulate everything in a nice namespace
 var railsAjax = {
 
@@ -56,7 +54,7 @@ var railsAjax = {
       jQuery(window).bind('statechange', function() {
         try {
           var lState = History.getState();
-          <%= 'alert(\'[RailsAjax] History statechange triggered #\' + lState.data.id + \' via \' + lState.data.type + \' to \' + lState.url.replace(lRootURL, \'/\') + \' (anchor: \' + lState.data.anchor + \', dataType: \' + lState.data.dataType + \')\');' if (RailsAjax.config.DebugAlerts) %>
+          <%= 'alert(\'[RailsAjax] History statechange triggered #\' + lState.data.id + \' via \' + lState.data.type + \' to \' + lState.url.replace(lRootURL, \'/\') + \' (anchor: \' + lState.data.anchor + \', dataType: \' + lState.data.dataType + \')\');' if (RailsAjax.config.debug_alerts?) %>
           // console.log('[RailsAjax] History statechange triggered ' + lState.data.type + ' to ' + lState.url.replace(lRootURL, '/') + ' (anchor: ' + lState.data.anchor + ', dataType: ' + lState.data.dataType + ')');
           jQuery.ajax({
             // TODO (History.js): Remove the anchor attribute when History.js handles anchors correctly.
@@ -101,13 +99,13 @@ var railsAjax = {
   // * *iCSSSelector* (_String_): CSS selector of elements needing attachment
   attachAjaxToElements: function(iCSSSelector) {
     try {
-      <%= 'alert(\'[RailsAjax] Attach Ajax bindings to elements \' + iCSSSelector + \' (\' + jQuery(iCSSSelector).length + \' elements)\');' if (RailsAjax.config.DebugAlerts) %>
+      <%= 'alert(\'[RailsAjax] Attach Ajax bindings to elements \' + iCSSSelector + \' (\' + jQuery(iCSSSelector).length + \' elements)\');' if (RailsAjax.config.debug_alerts?) %>
       jQuery(document)
         .delegate(iCSSSelector, 'ajax:beforeSend', function(iEvent, ioXHR, iSettings) {
           try {
             var lThis = jQuery(this);
             var lURL = ((lThis.is('a')) ? lThis.attr('href') : lThis.attr('action'));
-            <%= 'alert(\'[RailsAjax] Ajax before send. URL=\' + lURL + \' Method=\' + iSettings.type + \' Data=\' + iSettings.data);' if (RailsAjax.config.DebugAlerts) %>
+            <%= 'alert(\'[RailsAjax] Ajax before send. URL=\' + lURL + \' Method=\' + iSettings.type + \' Data=\' + iSettings.data);' if (RailsAjax.config.debug_alerts?) %>
             var lContinue = true;
             if (railsAjax.beforeSend != undefined) {
               try {
@@ -116,7 +114,7 @@ var railsAjax = {
                 alert('[RailsAjax] Exception in user callback railsAjax.beforeSend: ' + iUserError.name + ' - ' + iUserError.message);
               }
             }
-            <%= 'alert(\'[RailsAjax] Continue on the Ajax load ? \' + lContinue);' if (RailsAjax.config.DebugAlerts) %>
+            <%= 'alert(\'[RailsAjax] Continue on the Ajax load ? \' + lContinue);' if (RailsAjax.config.debug_alerts?) %>
             if (lContinue) {
               railsAjax.pushNewState(lURL,
                 {
@@ -148,7 +146,7 @@ var railsAjax = {
   // * *iData* (_String_): The received data (can be undefined for empty contents)
   ajaxSuccess: function(iXHR, iData) {
     try {
-      <%= 'alert(\'[RailsAjax] Ajax success. Loading data: \' + iData);' if (RailsAjax.config.DebugAlerts) %>
+      <%= 'alert(\'[RailsAjax] Ajax success. Loading data: \' + iData);' if (RailsAjax.config.debug_alerts?) %>
 
       if (iData != undefined) {
         railsAjax.updatePage(iXHR, iData);
@@ -245,7 +243,7 @@ var railsAjax = {
       // 5. Execute scripts that were added
       if ('js_to_execute' in iData) {
         jQuery.each(iData.js_to_execute, function(iIdx, iJS) {
-          <%= 'alert(\'[RailsAjax] Execute script #\' + iIdx + \':\\n\' + iJS);' if (RailsAjax.config.DebugAlerts) %>
+          <%= 'alert(\'[RailsAjax] Execute script #\' + iIdx + \':\\n\' + iJS);' if (RailsAjax.config.debug_alerts?) %>
           try {
             eval(iJS);
           } catch (iError) {
@@ -260,7 +258,7 @@ var railsAjax = {
   },
 
   // Used to identify states in debugging logs
-  <%= 'gStateID: 0,' if (RailsAjax.config.DebugAlerts) %>
+  <%= 'gStateID: 0,' if (RailsAjax.config.debug_alerts?) %>
 
   // Push a new History state
   //
@@ -277,7 +275,7 @@ var railsAjax = {
       var lState = jQuery.extend(
         {
           // Used to identify states in debugging logs
-          <%= 'id: railsAjax.gStateID,' if (RailsAjax.config.DebugAlerts) %>
+          <%= 'id: railsAjax.gStateID,' if (RailsAjax.config.debug_alerts?) %>
           anchor: lSplittedURL[1]
         },
         iData
@@ -287,7 +285,7 @@ var railsAjax = {
       } else {
         History.pushState(lState, null, lSplittedURL[0]);
       }
-      <%= 'railsAjax.gStateID = railsAjax.gStateID + 1;' if (RailsAjax.config.DebugAlerts) %>
+      <%= 'railsAjax.gStateID = railsAjax.gStateID + 1;' if (RailsAjax.config.debug_alerts?) %>
     } catch (iError) {
       alert('[RailsAjax] Exception in pushNewState: ' + iError.name + ' - ' + iError.message);
     }
