@@ -1,5 +1,21 @@
 = Rails-Ajax Release History
 
+== 1.0.0.20140320 (Beta)
+
+! Compatibility break !
+The way to test if RailsAjax is enabled changes from:
+RailsAjax.config.Enabled
+to:
+RailsAjax.config.enabled?
+Unless you specifically used this method, this only impacts the generated config file app/assets/javascripts/RailsAjax-Config.js.erb.
+
+* Added support for Rails button_to helper.
+* Handled the case when servers return an empty content.
+* Update page when a 4xx status gets to rails-ajax.
+* Now compatible with Devise.
+* Complete code review.
+* Adapted Travis configuration to take database into account.
+
 == 0.3.3.20140307 (Beta)
 
 * Adapted tests environment to Travis
