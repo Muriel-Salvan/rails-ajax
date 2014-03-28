@@ -1,3 +1,5 @@
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 test_dirs = [
   'dummy_rails4'
 ]

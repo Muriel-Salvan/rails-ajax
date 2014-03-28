@@ -15,3 +15,5 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
   # Setup TRAVIS context
   - "export TRAVIS_CONTEXT=1"
+  # Setup CodeClimate
+  - "export CODECLIMATE_REPO_TOKEN=56fbe8db6c13c6fc074644c649084b3fc8a5b9da6a3d570cf3c34ef2c28dd02e"
