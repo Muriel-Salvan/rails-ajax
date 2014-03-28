@@ -1,6 +1,8 @@
+{<img src="https://badge.fury.io/rb/rails-ajax.png" alt="Gem Version" />}[http://badge.fury.io/rb/rails-ajax]
 {<img src="https://travis-ci.org/Muriel-Salvan/ruby-serial.png?branch=master" />}[https://travis-ci.org/Muriel-Salvan/ruby-serial]
 {<img src="https://codeclimate.com/github/Muriel-Salvan/rails-ajax.png" />}[https://codeclimate.com/github/Muriel-Salvan/rails-ajax]
 {<img src="https://codeclimate.com/github/Muriel-Salvan/rails-ajax/coverage.png" />}[https://codeclimate.com/github/Muriel-Salvan/rails-ajax]
+{<img src="https://gemnasium.com/Muriel-Salvan/rails-ajax.svg" alt="Dependency Status" />}[https://gemnasium.com/Muriel-Salvan/rails-ajax]
 
 = Rails-Ajax
 

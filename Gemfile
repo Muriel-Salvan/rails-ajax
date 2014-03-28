@@ -15,10 +15,3 @@ gem "jquery-rails"
 
 # To use debugger
 # gem 'debugger'
-
-group :test do
-
-  # CodeClimate integration
-  gem 'codeclimate-test-reporter', require: nil
-
-end

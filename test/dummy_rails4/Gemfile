@@ -34,4 +34,7 @@ group :test do
   # Factory girl
   gem 'factory_girl_rails'
 
+  # CodeClimate integration
+  gem 'codeclimate-test-reporter', require: nil
+
 end
