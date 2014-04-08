@@ -7,7 +7,6 @@ test_dirs << 'dummy_rails3' if !ENV.key?('TRAVIS_CONTEXT')
 
 test_root_dir = File.expand_path(File.dirname(__FILE__))
 errors = []
-puts "BEGIN WITH CODECLIMATE_REPO_TOKEN=#{ENV['CODECLIMATE_REPO_TOKEN']}"
 test_dirs.each do |test_directory|
 	Bundler.with_clean_env do
 		puts
@@ -25,7 +24,6 @@ test_dirs.each do |test_directory|
 		system('bundle exec rake db:migrate --trace')
 		system('bundle exec rake db:test:prepare --trace')
 		# Execute tests suite
-		puts "LAUNCH WITH CODECLIMATE_REPO_TOKEN=#{ENV['CODECLIMATE_REPO_TOKEN']}"
 		system({'CODECLIMATE_REPO_TOKEN' => ENV['CODECLIMATE_REPO_TOKEN']}, 'bundle exec cucumber ../features')
 		exit_status = $?.exitstatus
 		errors << "[#{test_directory}] - cucumber failed with exit status #{exit_status}" if (exit_status != 0)
