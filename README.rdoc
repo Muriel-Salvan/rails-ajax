@@ -4,6 +4,7 @@
 {<img src="https://codeclimate.com/github/Muriel-Salvan/rails-ajax.png" />}[https://codeclimate.com/github/Muriel-Salvan/rails-ajax]
 {<img src="https://codeclimate.com/github/Muriel-Salvan/rails-ajax/coverage.png" />}[https://codeclimate.com/github/Muriel-Salvan/rails-ajax]
 {<img src="https://gemnasium.com/Muriel-Salvan/rails-ajax.svg" alt="Dependency Status" />}[https://gemnasium.com/Muriel-Salvan/rails-ajax]
+{<img src="https://pledgie.com/campaigns/24808.png?skin_name=chrome" alt="Click here to lend your support to: rails-ajax and make a donation at pledgie.com !" border="0" />}[https://pledgie.com/campaigns/24808]
 
 = Rails-Ajax
 
