@@ -3,7 +3,7 @@ test_dirs = [
 ]
 # If we are not in Travis, add dummy_rails3
 # TODO (Travis): Make Rails3 tests pass
-test_dirs << 'dummy_rails3' if !ENV.key?('TRAVIS_CONTEXT')
+test_dirs << 'dummy_rails3'# if !ENV.key?('TRAVIS_CONTEXT')
 
 test_root_dir = File.expand_path(File.dirname(__FILE__))
 errors = []
