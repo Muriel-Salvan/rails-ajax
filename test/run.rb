@@ -27,7 +27,7 @@ test_dirs.each do |test_directory|
 		system({
   			'CODECLIMATE_REPO_TOKEN' => ENV['CODECLIMATE_REPO_TOKEN'],
 	  		'DISPLAY' => ENV['DISPLAY']
-			}, 'xvfb-run bundle exec cucumber ../features')
+			}, 'xvfb-run -e /dev/stdout bundle exec cucumber ../features')
 		exit_status = $?.exitstatus
 		errors << "[#{test_directory}] - cucumber failed with exit status #{exit_status}" if (exit_status != 0)
 		puts
