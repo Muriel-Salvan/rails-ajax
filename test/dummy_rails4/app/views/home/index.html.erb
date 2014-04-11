@@ -100,7 +100,7 @@
     </div>
   </div>
   <div id="json4">
-    <%= link_to 'Send JSON4 Ajax call', '#', :onclick => 'ajaxCall4(); false;', :id => 'json4_link' %>
+    <%= link_to 'Send JSON4 Ajax call', '#', :onclick => 'ajaxCall4()', :id => 'json4_link' %>
     <div id="json4_content">
     </div>
   </div>
@@ -110,6 +110,14 @@
       <%= submit_tag 'Send JSON5 Ajax call with post', :id => 'json5_button' %>
     <% end %>
     <div id="json5_content">
+    </div>
+  </div>
+  <div id="json6">
+    <%= link_to 'Send JSON6 Ajax call', '#', :onclick => 'ajaxCall6(); return false;', :id => 'json6_link' %>
+    <%= form_tag '#', :id => 'json6_form' do %>
+      <%= submit_tag 'Send JSON6 Ajax call with post', :onclick => 'ajaxCall6(); return false;', :id => 'json6_button' %>
+    <% end %>
+    <div id="json6_content">
     </div>
   </div>
   <%= button_to 'Button to Page1 from Index', page1_path %>
@@ -153,6 +161,19 @@
       }
     };
     xmlhttp.open("GET", "<%= json4_path %>", true);
+    xmlhttp.send();
+    return false;
+  }
+
+  // Send the Ajax call 6
+  function ajaxCall6() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
+        fillWithObject($("#json6_content"), $.parseJSON(xmlhttp.responseText));
+      }
+    };
+    xmlhttp.open("GET", "<%= json6_path %>", true);
     xmlhttp.send();
     return false;
   }

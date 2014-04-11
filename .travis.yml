@@ -10,11 +10,6 @@ rvm:
   - 2.1.0
 
 before_install:
-  # Setup display, used by webkit driver
-  - "rm -f /tmp/.X99-lock"
-  - "export DISPLAY=:99.0"
-  # - "sh -e /etc/init.d/xvfb start"
-  # - sleep 10
   # Setup TRAVIS context
   - "export TRAVIS_CONTEXT=1"
   # Setup CodeClimate

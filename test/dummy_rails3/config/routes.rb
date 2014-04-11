@@ -17,6 +17,7 @@ Dummy::Application.routes.draw do
   match 'json3' => 'home#json3', :as => :json3, defaults: { format: 'json' }
   match 'json4' => 'home#json4', :as => :json4, defaults: { format: 'json' }
   match 'json5' => 'home#json5', :as => :json5
+  match 'json6' => 'home#json6', :as => :json6
   match 'error404' => 'home#error404', :as => :error404
   match 'empty_page/:status' => 'home#empty_page', :as => :empty_page
   root :to => 'home#index'

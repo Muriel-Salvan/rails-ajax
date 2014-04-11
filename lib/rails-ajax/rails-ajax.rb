@@ -27,8 +27,9 @@ module RailsAjax
   # Result::
   # * _Boolean_: Would this link be handled by rails-ajax?
   def self.rails_ajaxifiable?(options)
-    return ((options[:use_rails_ajax] != false) and # User has not removed rails-ajax voluntarily
-            (options[:target] == nil) and # Open in the same window and
+    return ((options[:use_rails_ajax] != false) && # User has not removed rails-ajax voluntarily
+            (options[:target] == nil) && # Open in the same window and
+            (options[:onclick] == nil) && # Do not override the onclick event
             (!options.has_key?(:remote))) # User has not specified Ajax call itself
   end
 
