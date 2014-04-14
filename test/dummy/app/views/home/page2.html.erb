@@ -1,9 +1,0 @@
-<div id="Page2">
-  <div id="Page2_RefreshCounter">Page2 refresh counter: <%= session[:counters][:page2] += 1%></div>
-  <%= link_to 'Go to page_with_anchor from Page2', page_with_anchor_path %>
-  <%= form_tag page_with_anchor_path do %>
-    <%= label_tag :page2_field_1, 'Text field' %><%= text_field_tag :page2_field_1 %>
-    <%= submit_tag 'Page2Button1' %>
-    <%= submit_tag 'Page2Button2' %>
-  <% end %>
-</div>
