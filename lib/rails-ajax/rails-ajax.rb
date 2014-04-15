@@ -1,3 +1,4 @@
+# Main namespace encapsulating all rails-ajax API
 module RailsAjax
 
   # The configuration

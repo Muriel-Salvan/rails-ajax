@@ -1,3 +1,4 @@
+# Main namespace encapsulating all rails-ajax API
 module RailsAjax
 
   # Give the root directory of the RailsAjax installation
