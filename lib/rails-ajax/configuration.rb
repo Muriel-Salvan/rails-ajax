@@ -43,7 +43,7 @@ module RailsAjax
     # Return::
     # * _String_: The CSS selector of the main container
     def main_container(selector = nil)
-      @main_container = selector if (selector != nil)
+      @main_container = selector if selector
       return @main_container
     end
 
@@ -54,7 +54,7 @@ module RailsAjax
     # Return::
     # * <em>map<Symbol,String></em>: The map of selectors [optional = nil]
     def flash_containers(selectors_map = nil)
-      @flash_containers.merge!(selectors_map) if (selectors_map != nil)
+      @flash_containers.merge!(selectors_map) if selectors_map
       return @flash_containers
     end
 

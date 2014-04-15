@@ -1,6 +1,6 @@
 # Don't execute scenarios that do not apply to Rails 3
 Around('@no_rails3') do |scenario, block|
-  block.call unless (ENV['RAILS_VERSION'] == '3')
+  block.call unless ENV['RAILS_VERSION'] == '3'
 end
 
 # Parse tags

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   # Initialize the session if it is a new one
   def init_session_if_new
-    if (session[:counters] == nil)
+    if session[:counters] == nil
       session[:counters] = {
         :layout => 0,
         :index => 0,

@@ -4,8 +4,8 @@ require 'factory_girl'
 FactoryGirl.define do
 
   factory :user do
-    email                 'test@x-aeon.com'
-    password              'testtest'
+    email 'test@x-aeon.com'
+    password 'testtest'
     password_confirmation 'testtest'
   end
 

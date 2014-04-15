@@ -1,8 +1,8 @@
 MyRailsApp::Application.routes.draw do
 
-  match 'page1' => 'home#page1', :as => :page1, via: [ :get, :post]
-  match 'page2' => 'home#page2', :as => :page2, via: [ :get, :post]
-  match 'page3' => 'home#page3', :as => :page3, via: [ :get, :post]
+  match 'page1' => 'home#page1', :as => :page1, via: [:get, :post]
+  match 'page2' => 'home#page2', :as => :page2, via: [:get, :post]
+  match 'page3' => 'home#page3', :as => :page3, via: [:get, :post]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -53,8 +53,8 @@ MyRailsApp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  #root :to => 'home#page1'
-  match '/' => 'home#page1', via: [ :get, :post], as: :root
+  # root :to => 'home#page1'
+  match '/' => 'home#page1', via: [:get, :post], as: :root
 
   # See how all your routes lay out with "rake routes"
 

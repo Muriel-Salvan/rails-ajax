@@ -19,12 +19,11 @@ require 'capybara-webkit'
 Capybara.default_selector = :css
 
 # Specify which driver to be used to emulate the client browser
-#Capybara.javascript_driver = :selenium
+# Capybara.javascript_driver = :selenium
 Capybara.javascript_driver = :webkit
 
 # Specify the time to wait for asynchronous calls
 Capybara.default_wait_time = 10
-
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -45,11 +44,11 @@ ActionController::Base.allow_rescue = false
 
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-#begin
+# begin
 #  DatabaseCleaner.strategy = :transaction
-#rescue NameError
+# rescue NameError
 #  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-#end
+# end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:

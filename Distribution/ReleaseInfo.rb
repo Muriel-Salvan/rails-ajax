@@ -14,20 +14,20 @@ RubyPackager::ReleaseInfo.new.
     :browse_source_url => 'http://github.com/Muriel-Salvan/rails-ajax',
     :dev_status => 'Beta'
   ).
-  add_core_files( [
+  add_core_files([
     'assets/**/*',
     'gen/**/*',
     'lib/**/*',
     'tasks/**/*'
-  ] ).
+  ]).
   add_test_files(
-    [ 'rails-ajax.gemspec' ] +
+    ['rails-ajax.gemspec'] +
     Dir.glob('test/**/*') -
     Dir.glob('test/dummy/log/*.log') -
     Dir.glob('test/dummy/tmp/**/*') -
     Dir.glob('test/dummy/.sass-cache/**/*')
   ).
-  add_additional_files( [
+  add_additional_files([
     'README.rdoc',
     'LICENSE',
     'AUTHORS.rdoc',
@@ -36,7 +36,7 @@ RubyPackager::ReleaseInfo.new.
     'Gemfile',
     'Gemfile.lock',
     'Rakefile'
-  ] ).
+  ]).
   gem(
     :gem_name => 'rails-ajax',
     :gem_platform_class_name => 'Gem::Platform::RUBY',
@@ -44,7 +44,7 @@ RubyPackager::ReleaseInfo.new.
     :has_rdoc => true,
     :test_file => 'test/run.rb',
     :gem_dependencies => [
-      [ 'rails', '>= 3.2.1' ]
+      ['rails', '>= 3.2.1']
     ]
   ).
   source_forge(

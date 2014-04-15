@@ -37,17 +37,17 @@ Then(/^the filled Ajax content should be number "(.*?)"$/) do |json_index|
     rescue Capybara::ElementNotFound
       json_content_element = nil
     end
-    if (json_content_element != nil)
-      if (current_index == json_index)
+    if json_content_element
+      if current_index == json_index
         # It should have content
-        #page.should have_selector("div#json#{current_index}_content", :text => "json#{json_index}.1 ok#{json_index}.1 json#{json_index}.2 ok#{json_index}.2")
+        # page.should have_selector("div#json#{current_index}_content", :text => "json#{json_index}.1 ok#{json_index}.1 json#{json_index}.2 ok#{json_index}.2")
         json_content_element.should have_content("json#{json_index}.1 ok#{json_index}.1 json#{json_index}.2 ok#{json_index}.2")
       else
         # It should be empty
         json_content_element.text.should be_empty
       end
     end
-    break if (json_content_element == nil)
+    break if json_content_element == nil
     current_index += 1
   end
 
@@ -65,7 +65,7 @@ Then /^the location URL should be "(.*?)"$/ do |url|
   if @use_javascript
     page.evaluate_script('window.location.toString().split(window.location.protocol + \'//\' + window.location.host).join(\'\')').should == url
   else
-    (current_url.sub(%r{.*?://},'')[%r{[/\?\#].*}] || '/').should == url
+    (current_url.sub(%r{.*?://}, '')[%r{[/\?\#].*}] || '/').should == url
   end
 end
 

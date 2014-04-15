@@ -24,11 +24,11 @@ errors = []
     system({
         'CODECLIMATE_REPO_TOKEN' => ENV['CODECLIMATE_REPO_TOKEN']
       }, "#{ENV['TRAVIS_CONTEXT'] == '1' ? 'xvfb-run ' : ''}bundle exec cucumber ../features")
-    exit_status = $?.exitstatus
-    errors << "[#{test_directory}] - cucumber failed with exit status #{exit_status}" if (exit_status != 0)
+    exit_status = $CHILD_STATUS.exitstatus
+    errors << "[#{test_directory}] - cucumber failed with exit status #{exit_status}" if exit_status != 0
     puts
     puts
-	end
+  end
 end
 
-raise "#{errors.size} failed cucumber test suites:\n#{errors.join("\n")}" if (!errors.empty?)
+raise "#{errors.size} failed cucumber test suites:\n#{errors.join("\n")}" unless errors.empty?

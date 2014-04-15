@@ -1,26 +1,26 @@
 Dummy::Application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'sessions' }
-  match 'page1' => 'home#page1', :as => :page1, via: [ :get, :post]
-  match 'page2' => 'home#page2', :as => :page2, via: [ :get, :post]
-  match 'page_with_anchor' => 'home#page_with_anchor', :as => :page_with_anchor, via: [ :get, :post]
-  match 'page_with_refresh_layoutdiv' => 'home#page_with_refresh_layoutdiv', :as => :page_with_refresh_layoutdiv, via: [ :get, :post]
-  match 'page_with_railsajax_javascript' => 'home#page_with_railsajax_javascript', :as => :page_with_railsajax_javascript, via: [ :get, :post]
-  match 'page_with_javascript' => 'home#page_with_javascript', :as => :page_with_javascript, via: [ :get, :post]
-  match 'page_with_jquery_ready' => 'home#page_with_jquery_ready', :as => :page_with_jquery_ready, via: [ :get, :post]
-  match 'page_with_flash' => 'home#page_with_flash', :as => :page_with_flash, via: [ :get, :post]
-  match 'configure' => 'home#configure', :as => :configure, via: [ :get, :post]
-  match 'redirect' => 'home#redirect', :as => :redirect, via: [ :get, :post]
-  match 'redirect_with_flash' => 'home#redirect_with_flash', :as => :redirect_with_flash, via: [ :get, :post]
-  match 'json1' => 'home#json1', :as => :json1, defaults: { format: 'json' }, via: [ :get, :post]
-  match 'json2' => 'home#json2', :as => :json2, via: [ :get, :post]
-  match 'json3' => 'home#json3', :as => :json3, defaults: { format: 'json' }, via: [ :get, :post]
-  match 'json4' => 'home#json4', :as => :json4, defaults: { format: 'json' }, via: [ :get, :post]
-  match 'json5' => 'home#json5', :as => :json5, via: [ :get, :post]
-  match 'json6' => 'home#json6', :as => :json6, via: [ :get, :post]
-  match 'error404' => 'home#error404', :as => :error404, via: [ :get, :post]
-  match 'empty_page/:status' => 'home#empty_page', :as => :empty_page, via: [ :get, :post]
-  match '/' => 'home#index', via: [ :get, :post], as: :root
+  match 'page1' => 'home#page1', :as => :page1, via: [:get, :post]
+  match 'page2' => 'home#page2', :as => :page2, via: [:get, :post]
+  match 'page_with_anchor' => 'home#page_with_anchor', :as => :page_with_anchor, via: [:get, :post]
+  match 'page_with_refresh_layoutdiv' => 'home#page_with_refresh_layoutdiv', :as => :page_with_refresh_layoutdiv, via: [:get, :post]
+  match 'page_with_railsajax_javascript' => 'home#page_with_railsajax_javascript', :as => :page_with_railsajax_javascript, via: [:get, :post]
+  match 'page_with_javascript' => 'home#page_with_javascript', :as => :page_with_javascript, via: [:get, :post]
+  match 'page_with_jquery_ready' => 'home#page_with_jquery_ready', :as => :page_with_jquery_ready, via: [:get, :post]
+  match 'page_with_flash' => 'home#page_with_flash', :as => :page_with_flash, via: [:get, :post]
+  match 'configure' => 'home#configure', :as => :configure, via: [:get, :post]
+  match 'redirect' => 'home#redirect', :as => :redirect, via: [:get, :post]
+  match 'redirect_with_flash' => 'home#redirect_with_flash', :as => :redirect_with_flash, via: [:get, :post]
+  match 'json1' => 'home#json1', :as => :json1, defaults: { format: 'json' }, via: [:get, :post]
+  match 'json2' => 'home#json2', :as => :json2, via: [:get, :post]
+  match 'json3' => 'home#json3', :as => :json3, defaults: { format: 'json' }, via: [:get, :post]
+  match 'json4' => 'home#json4', :as => :json4, defaults: { format: 'json' }, via: [:get, :post]
+  match 'json5' => 'home#json5', :as => :json5, via: [:get, :post]
+  match 'json6' => 'home#json6', :as => :json6, via: [:get, :post]
+  match 'error404' => 'home#error404', :as => :error404, via: [:get, :post]
+  match 'empty_page/:status' => 'home#empty_page', :as => :empty_page, via: [:get, :post]
+  match '/' => 'home#index', via: [:get, :post], as: :root
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

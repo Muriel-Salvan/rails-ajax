@@ -6,18 +6,18 @@ module RailsAjax
     # Render
     # Adapt to AJAX calls, by returning the following JSON object that will be interpreted by client side JavaScript.
     def render(*options, &block)
-      if (RailsAjax.config.enabled?)
+      if RailsAjax.config.enabled?
         args = _normalize_args(*options, &block)
-        if ((request.xhr?) and
-            (!args.has_key?(:partial)) and
-            (!args.has_key?(:layout)) and
-            (!args.has_key?(:json)) and
-            (params['format'] != 'json') and
-            (self.content_type != 'application/json'))
-          logger.debug "[RailsAjax] render: options=#{options.inspect} block?#{block != nil} flash=#{flash.inspect} | Normalized arguments: #{args.inspect}"
+        if request.xhr? &&
+           !args.key?(:partial) &&
+           !args.key?(:layout) &&
+           !args.key?(:json) &&
+           params['format'] != 'json' &&
+           content_type != 'application/json'
+          logger.debug "[RailsAjax] render: options=#{options.inspect} block?#{block} flash=#{flash.inspect} | Normalized arguments: #{args.inspect}"
 
           # If we have a redirection, use redirect_to
-          if (args[:location] == nil)
+          if args[:location] == nil
             # Complete arguments if needed
             # We don't want a special layout for Ajax requests: this was asked using AJAX for a page to be displayed in the main content
             args[:layout] = false
@@ -32,7 +32,7 @@ module RailsAjax
                 RailsAjax.config.main_container => main_content
               }
             ).to_json
-          elsif (args[:status] == nil)
+          elsif args[:status] == nil
             redirect_to args[:location]
           else
             redirect_to args[:location], args[:status]
@@ -50,7 +50,7 @@ module RailsAjax
     # Render a redirection
     # Adapt to AJAX calls
     def redirect_to(options = {}, response_status = {})
-      if (RailsAjax.config.enabled? and request.xhr?)
+      if RailsAjax.config.enabled? && request.xhr?
         logger.debug "[RailsAjax] redirect_to: options=#{options.inspect} response_status=#{response_status.inspect}"
         # Use 'application/json'
         self.content_type = 'application/json'
@@ -72,7 +72,7 @@ module RailsAjax
     def refresh_dom_with_partial(css_selector, partial_name)
       if RailsAjax.config.enabled?
         logger.debug "[RailsAjax] Mark partial #{partial_name} to be refreshed in #{css_selector}"
-        @partials_to_refresh = {} if (defined?(@partials_to_refresh) == nil)
+        @partials_to_refresh = {} if defined?(@partials_to_refresh) == nil
         @partials_to_refresh[css_selector] = partial_name
       end
     end
@@ -85,7 +85,7 @@ module RailsAjax
     def execute_javascript(js_code)
       if RailsAjax.config.enabled?
         logger.debug "[RailsAjax] Add javascript to be executed: #{js_code[0..255]}"
-        @js_to_execute = [] if (defined?(@js_to_execute) == nil)
+        @js_to_execute = [] if defined?(@js_to_execute) == nil
         @js_to_execute << js_code
       end
     end
@@ -112,7 +112,7 @@ module RailsAjax
       json_result = {}
 
       elements_contents = options[:elements_to_refresh] || {}
-      if (defined?(@partials_to_refresh) != nil)
+      if defined?(@partials_to_refresh)
         @partials_to_refresh.each do |css_selector, partial_name|
           elements_contents[css_selector] = render_to_string(:partial => partial_name)
         end
@@ -120,9 +120,9 @@ module RailsAjax
       RailsAjax.config.flash_containers.each do |flash_type, css_selector|
         elements_contents[css_selector] = flash[flash_type]
       end
-      json_result[:js_to_execute] = @js_to_execute if (defined?(@js_to_execute) != nil)
+      json_result[:js_to_execute] = @js_to_execute if defined?(@js_to_execute)
       json_result[:div_contents] = elements_contents
-      json_result[:redirect_to] = options[:redirect_to] if (options[:redirect_to] != nil)
+      json_result[:redirect_to] = options[:redirect_to] if options[:redirect_to]
 
       return json_result
     end
