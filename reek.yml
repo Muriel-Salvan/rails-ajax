@@ -1,6 +1,0 @@
----
-NilCheck:
-  enabled: false
-UncommunicativeModuleName:
-  reject:
-  - !ruby/regexp /^.$/
