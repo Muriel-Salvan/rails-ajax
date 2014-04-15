@@ -28,7 +28,7 @@ module RailsAjax
             # Use 'application/json'
             self.content_type = 'application/json'
             self.response_body = get_json_response(
-              :elements_to_refresh => {
+              elements_to_refresh: {
                 RailsAjax.config.main_container => main_content
               }
             ).to_json
@@ -55,7 +55,7 @@ module RailsAjax
         # Use 'application/json'
         self.content_type = 'application/json'
         self.response_body = get_json_response(
-          :redirect_to => url_for(options)
+          redirect_to: url_for(options)
         ).to_json
       else
         super(options, response_status)
@@ -114,7 +114,7 @@ module RailsAjax
       elements_contents = options[:elements_to_refresh] || {}
       if defined?(@partials_to_refresh)
         @partials_to_refresh.each do |css_selector, partial_name|
-          elements_contents[css_selector] = render_to_string(:partial => partial_name)
+          elements_contents[css_selector] = render_to_string(partial: partial_name)
         end
       end
       RailsAjax.config.flash_containers.each do |flash_type, css_selector|

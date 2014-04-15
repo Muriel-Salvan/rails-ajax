@@ -1,4 +1,4 @@
-# TODO (factory_girl_rails): Remove this require when not needed anymore
+# TODO: [factory_girl_rails] Remove this require when not needed anymore
 require 'factory_girl'
 
 FactoryGirl.define do

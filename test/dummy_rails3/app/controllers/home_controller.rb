@@ -44,18 +44,18 @@ class HomeController < ApplicationController
   end
 
   def json5
-    render :json => {
+    render json: {
       'json5.1' => 'ok5.1',
       'json5.2' => 'ok5.2'
     }
   end
 
   def error404
-    render :status => :not_found
+    render status: :not_found
   end
 
   def empty_page
-    head :status => params[:status]
+    head status: params[:status]
   end
 
 end

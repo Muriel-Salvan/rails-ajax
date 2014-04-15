@@ -13,7 +13,7 @@ end
 
 Then(/^user "(.*?)" should not be registered$/) do |user_email|
   # Check user in database
-  desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(:email => user_email).first : User.find_by(:email => user_email))
+  desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(email: user_email).first : User.find_by(email: user_email))
   desired_user.should == nil
   # Check there is no current user
   find("div#logged_in_user").should have_content("None")
@@ -21,7 +21,7 @@ end
 
 Then(/^user "(.*?)" should be registered and signed in$/) do |user_email|
   # Check user in database
-  desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(:email => user_email).first : User.find_by(:email => user_email))
+  desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(email: user_email).first : User.find_by(email: user_email))
   desired_user.should_not == nil
   # Check this is the current user
   find("div#logged_in_user").should have_content("Logged in user: #{desired_user.email}")

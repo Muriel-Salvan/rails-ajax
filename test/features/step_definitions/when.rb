@@ -3,8 +3,8 @@ When(/^user signs out$/) do
 end
 
 When(/^I sign in user "(.*?)" with password "(.*?)"$/) do |user_email, user_password|
-  fill_in('Email', :with => user_email)
-  fill_in('Password', :with => user_password)
+  fill_in('Email', with: user_email)
+  fill_in('Password', with: user_password)
   click_on('Sign in')
 end
 
@@ -26,13 +26,13 @@ When /^I submit "([^"]*?)" using "([^"]*?)"$/ do |text_value, button_name|
 end
 
 When /^I submit "([^"]*?)" in "([^"]*?)" using "([^"]*?)"$/ do |text_value, field_name, button_name|
-  fill_in(field_name, :with => text_value)
+  fill_in(field_name, with: text_value)
   click_on(button_name)
 end
 
 When /^I go back "(.*?)" times in history$/ do |nbr_times|
   nbr_times.to_i.times do
-    # TODO (Webkit): Remove this sleep when Capybara-webkit will handle history correctly. Test on Travis.
+    # TODO: [Webkit] Remove this sleep when Capybara-webkit will handle history correctly. Test on Travis.
     sleep 5
     page.execute_script('window.history.back();')
   end

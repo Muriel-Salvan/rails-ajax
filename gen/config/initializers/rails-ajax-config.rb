@@ -17,9 +17,9 @@ RailsAjax.configure do
   # Use these if those containers are part of your layout and will not be refreshed by each Ajax call. In this case RailsAjax will still refresh them.
   # If not set for a given flash message type, you have to return the corresponding flash yourself in each Ajax's response.
   flash_containers(
-    :notice => '#FlashNotice',
-    :error => '#FlashError',
-    :alert => '#FlashAlert'
+    notice: '#FlashNotice',
+    error: '#FlashError',
+    alert: '#FlashAlert'
   )
 
   # Activate debugging alerts in the JS code.

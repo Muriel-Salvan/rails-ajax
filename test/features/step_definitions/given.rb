@@ -57,24 +57,24 @@ end
 
 Given(/^I register user "(.*?)" with password "(.*?)"$/) do |user_email, user_password|
   visit new_user_registration_path
-  fill_in('Email', :with => user_email)
-  fill_in('Password', :with => user_password)
-  fill_in('Password confirmation', :with => user_password)
+  fill_in('Email', with: user_email)
+  fill_in('Password', with: user_password)
+  fill_in('Password confirmation', with: user_password)
   click_on('Sign up')
 end
 
 Given(/^I register user "(.*?)" with unmatched passwords "(.*?)" and confirmation "(.*?)"$/) do |user_email, user_password, user_password_confirmation|
   visit new_user_registration_path
-  fill_in('Email', :with => user_email)
-  fill_in('Password', :with => user_password)
-  fill_in('Password confirmation', :with => user_password_confirmation)
+  fill_in('Email', with: user_email)
+  fill_in('Password', with: user_password)
+  fill_in('Password confirmation', with: user_password_confirmation)
   click_on('Sign up')
 end
 
 Given(/^user "(.*?)" is registered with password "(.*?)"$/) do |user_email, user_password|
-  @registered_user = FactoryGirl.create(:user, :email => user_email, :password => user_password, :password_confirmation => user_password)
+  @registered_user = FactoryGirl.create(:user, email: user_email, password: user_password, password_confirmation: user_password)
 end
 
 Given(/^user is signed in$/) do
-  login_as(@registered_user, :scope => :user)
+  login_as(@registered_user, scope: :user)
 end
