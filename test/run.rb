@@ -1,9 +1,6 @@
 test_root_dir = File.expand_path(File.dirname(__FILE__))
 errors = []
-[
-  'dummy_rails3',
-  'dummy_rails4'
-].each do |test_directory|
+%w(dummy_rails3 dummy_rails4).each do |test_directory|
   Bundler.with_clean_env do
     puts
     puts
@@ -21,9 +18,7 @@ errors = []
     # Prepare test db for Rails 3 only
     system('bundle exec rake db:test:prepare --trace') if ENV['RAILS_VERSION'] == '3'
     # Execute tests suite
-    system({
-        'CODECLIMATE_REPO_TOKEN' => ENV['CODECLIMATE_REPO_TOKEN']
-      }, "#{ENV['TRAVIS_CONTEXT'] == '1' ? 'xvfb-run ' : ''}bundle exec cucumber ../features")
+    system({ 'CODECLIMATE_REPO_TOKEN' => ENV['CODECLIMATE_REPO_TOKEN'] }, "#{ENV['TRAVIS_CONTEXT'] == '1' ? 'xvfb-run ' : ''}bundle exec cucumber ../features")
     exit_status = $CHILD_STATUS.exitstatus
     errors << "[#{test_directory}] - cucumber failed with exit status #{exit_status}" if exit_status != 0
     puts

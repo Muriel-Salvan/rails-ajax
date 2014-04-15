@@ -17,7 +17,7 @@ module RailsAjax
           logger.debug "[RailsAjax] render: options=#{options.inspect} block?#{block} flash=#{flash.inspect} | Normalized arguments: #{args.inspect}"
 
           # If we have a redirection, use redirect_to
-          if args[:location] == nil
+          if args[:location].nil?
             # Complete arguments if needed
             # We don't want a special layout for Ajax requests: this was asked using AJAX for a page to be displayed in the main content
             args[:layout] = false
@@ -32,7 +32,7 @@ module RailsAjax
                 RailsAjax.config.main_container => main_content
               }
             ).to_json
-          elsif args[:status] == nil
+          elsif args[:status].nil?
             redirect_to args[:location]
           else
             redirect_to args[:location], args[:status]
@@ -72,7 +72,7 @@ module RailsAjax
     def refresh_dom_with_partial(css_selector, partial_name)
       if RailsAjax.config.enabled?
         logger.debug "[RailsAjax] Mark partial #{partial_name} to be refreshed in #{css_selector}"
-        @partials_to_refresh = {} if defined?(@partials_to_refresh) == nil
+        @partials_to_refresh = {} if defined?(@partials_to_refresh).nil?
         @partials_to_refresh[css_selector] = partial_name
       end
     end
@@ -85,7 +85,7 @@ module RailsAjax
     def execute_javascript(js_code)
       if RailsAjax.config.enabled?
         logger.debug "[RailsAjax] Add javascript to be executed: #{js_code[0..255]}"
-        @js_to_execute = [] if defined?(@js_to_execute) == nil
+        @js_to_execute = [] if defined?(@js_to_execute).nil?
         @js_to_execute << js_code
       end
     end
@@ -124,7 +124,7 @@ module RailsAjax
       json_result[:div_contents] = elements_contents
       json_result[:redirect_to] = options[:redirect_to] if options[:redirect_to]
 
-      return json_result
+      json_result
     end
 
   end

@@ -8,7 +8,7 @@ module RailsAjax
     # Return::
     # * _Boolean_: Is rails-ajax enabled?
     def enabled?
-      return @enabled
+      @enabled
     end
 
     # Debug alerts ?
@@ -16,7 +16,7 @@ module RailsAjax
     # Return::
     # * _Boolean_: Do we switch on debug alerts?
     def debug_alerts?
-      return @debug_alerts
+      @debug_alerts
     end
 
     # Constructor
@@ -44,7 +44,7 @@ module RailsAjax
     # * _String_: The CSS selector of the main container
     def main_container(selector = nil)
       @main_container = selector if selector
-      return @main_container
+      @main_container
     end
 
     # Define the flash containers (add them to already present ones) if provided, and return them
@@ -55,7 +55,7 @@ module RailsAjax
     # * <em>map<Symbol,String></em>: The map of selectors [optional = nil]
     def flash_containers(selectors_map = nil)
       @flash_containers.merge!(selectors_map) if selectors_map
-      return @flash_containers
+      @flash_containers
     end
 
     # Do we activate debugging alerts ?

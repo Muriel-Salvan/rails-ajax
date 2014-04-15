@@ -4,27 +4,27 @@ end
 
 Then(/^nobody should be signed in$/) do
   # Check there is no current user
-  find("div#logged_in_user").should have_content("None")
+  find('div#logged_in_user').should have_content('None')
 end
 
 Then(/^the mismatched passwords error should be displayed$/) do
-  find("div#error_explanation").should have_content((ENV['RAILS_VERSION'] == '3') ? 'Password doesn\'t match confirmation' : 'Password confirmation doesn\'t match Password')
+  find('div#error_explanation').should have_content((ENV['RAILS_VERSION'] == '3') ? 'Password doesn\'t match confirmation' : 'Password confirmation doesn\'t match Password')
 end
 
 Then(/^user "(.*?)" should not be registered$/) do |user_email|
   # Check user in database
   desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(email: user_email).first : User.find_by(email: user_email))
-  desired_user.should == nil
+  desired_user.should.nil?
   # Check there is no current user
-  find("div#logged_in_user").should have_content("None")
+  find('div#logged_in_user').should have_content('None')
 end
 
 Then(/^user "(.*?)" should be registered and signed in$/) do |user_email|
   # Check user in database
   desired_user = ((ENV['RAILS_VERSION'] == '3') ? User.where(email: user_email).first : User.find_by(email: user_email))
-  desired_user.should_not == nil
+  desired_user.should_not.nil?
   # Check this is the current user
-  find("div#logged_in_user").should have_content("Logged in user: #{desired_user.email}")
+  find('div#logged_in_user').should have_content("Logged in user: #{desired_user.email}")
 end
 
 Then(/^the filled Ajax content should be number "(.*?)"$/) do |json_index|
@@ -47,7 +47,7 @@ Then(/^the filled Ajax content should be number "(.*?)"$/) do |json_index|
         json_content_element.text.should be_empty
       end
     end
-    break if json_content_element == nil
+    break if json_content_element.nil?
     current_index += 1
   end
 
@@ -65,7 +65,7 @@ Then /^the location URL should be "(.*?)"$/ do |url|
   if @use_javascript
     page.evaluate_script('window.location.toString().split(window.location.protocol + \'//\' + window.location.host).join(\'\')').should == url
   else
-    (current_url.sub(%r{.*?://}, '')[%r{[/\?\#].*}] || '/').should == url
+    (current_url.sub(%r{.*?://}, '')[/[\/\?\#].*/] || '/').should == url
   end
 end
 

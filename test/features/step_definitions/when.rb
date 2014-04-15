@@ -59,7 +59,7 @@ NBR_SECONDS_MAX_PER_CALLBACK = 2
 When(/^I wait for "(.*?)" callbacks to be triggered$/) do |nbr_callbacks|
   # First make sure the variable is still accessible.
   # It can be absent if the page was refreshed.
-  raise 'Unable to get callbacks back: the page has certainly been refreshed completely whereas it should not have.' if page.evaluate_script('window.callbacksCalled.length;') == nil
+  raise 'Unable to get callbacks back: the page has certainly been refreshed completely whereas it should not have.' if page.evaluate_script('window.callbacksCalled.length;').nil?
   nbr_callbacks = nbr_callbacks.to_i
   Timeout.timeout(nbr_callbacks * NBR_SECONDS_MAX_PER_CALLBACK) do
     while page.evaluate_script('window.callbacksCalled.length;') < nbr_callbacks

@@ -10,7 +10,7 @@ module RailsAjax
   # Return::
   # * <em>RailsAjax::Configuration</em>: The RailsAjax configuration
   def self.config
-    return @configuration
+    @configuration
   end
 
   # Configure RailsAjax
@@ -28,10 +28,10 @@ module RailsAjax
   # Result::
   # * _Boolean_: Would this link be handled by rails-ajax?
   def self.rails_ajaxifiable?(options)
-    return ((options[:use_rails_ajax] != false) && # User has not removed rails-ajax voluntarily
-            (options[:target] == nil) && # Open in the same window and
-            (options[:onclick] == nil) && # Do not override the onclick event
-            (!options.key?(:remote))) # User has not specified Ajax call itself
+    options[:use_rails_ajax] != false && # User has not removed rails-ajax voluntarily
+    options[:target].nil? && # Open in the same window and
+    options[:onclick].nil? && # Do not override the onclick event
+    !options.key?(:remote) # User has not specified Ajax call itself
   end
 
 end
