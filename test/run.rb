@@ -1,3 +1,5 @@
+require 'English'
+
 test_root_dir = File.expand_path(File.dirname(__FILE__))
 errors = []
 %w(dummy_rails3 dummy_rails4).each do |test_directory|
