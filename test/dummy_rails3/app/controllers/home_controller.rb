@@ -51,7 +51,7 @@ class HomeController < ApplicationController
   end
 
   def error404
-    render :status => 404
+    render :status => :not_found
   end
 
   def empty_page
