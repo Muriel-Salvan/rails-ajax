@@ -62,7 +62,7 @@ module RailsAjax
       end
     end
 
-    protected
+    private
 
     # Mark given DOM elements (selected using a CSS selector) to be refreshed with a partial's content
     #
@@ -89,8 +89,6 @@ module RailsAjax
         @js_to_execute << js_code
       end
     end
-
-    private
 
     # Get the JSON object that will be sent to an Ajax request.
     # Include the partials marked to be refreshed.
