@@ -1,3 +1,4 @@
+# Always put it first
 require 'English'
 
 test_root_dir = File.expand_path(File.dirname(__FILE__))
