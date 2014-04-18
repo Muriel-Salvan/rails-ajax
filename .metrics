@@ -1,0 +1,50 @@
+# To configure individual metrics...
+MetricFu::Configuration.run do |config|
+
+  # Use Highcharts
+  config.configure_graph_engine(:highcharts)
+
+  # Cane
+  config.configure_metric(:cane) do |cane|
+    cane.line_length = 9999
+  end
+
+  # Flay
+  config.configure_metric(:flay) do |flay|
+    flay.dirs_to_flay = ['.']
+  end
+
+  # Flog
+  config.configure_metric(:flog) do |flog|
+    flog.dirs_to_flog = ['.']
+  end
+
+  # Saikuro
+  config.configure_metric(:saikuro) do |saikuro|
+    saikuro.input_directory = ['.']
+  end
+
+  # Reek
+  config.configure_metric(:reek) do |reek|
+    reek.config_file_pattern = 'reek.yml'
+  end
+
+  # Roodi
+  config.configure_metric(:roodi) do |roodi|
+    roodi.dirs_to_roodi =  ['.']
+  end
+
+  # Stats
+  config.configure_metric(:stats) do |stats|
+    stats.additional_test_directories = [
+      {
+        glob_pattern: 'test/**/*.rb',
+        file_pattern: ''
+      }
+    ]
+    stats.additional_app_directories = Dir.glob('*').
+      select { |f| File.directory?(f) && f != 'test' }.
+      map { |f| { glob_pattern: "#{f}/**/*.rb", file_pattern: '' } }
+  end
+
+end

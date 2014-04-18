@@ -1,0 +1,10 @@
+---
+
+# It is better to check for nil than leaving the ambiguity with false values
+NilCheck:
+  enabled: false
+
+# Having a module named MyModuleV2 is acceptable
+UncommunicativeModuleName:
+  reject:
+  - !ruby/regexp /^.$/
