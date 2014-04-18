@@ -16,6 +16,7 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
-group :test do
+group :metrics do
+  # Get metrics on code quality
   gem 'metric_fu'
 end
