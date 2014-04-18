@@ -1,7 +1,7 @@
 # To configure individual metrics...
 MetricFu::Configuration.run do |config|
 
-  # Use Highcharts
+  # Use Highcharts, it's prettier
   config.configure_graph_engine(:highcharts)
 
   # Cane
