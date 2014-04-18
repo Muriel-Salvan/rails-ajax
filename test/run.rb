@@ -18,7 +18,7 @@ errors = []
     system('bundle install')
     # Create and prepare database
     system('bundle exec rake db:migrate --trace')
-    # Prepare test db for Rails 3 only
+    # Prepare test db for Rails 3 only. This is deprecated for Rails 4.
     system('bundle exec rake db:test:prepare --trace') if ENV['RAILS_VERSION'] == '3'
     # Execute tests suite
     system({ 'CODECLIMATE_REPO_TOKEN' => ENV['CODECLIMATE_REPO_TOKEN'] }, "#{ENV['TRAVIS_CONTEXT'] == '1' ? 'xvfb-run ' : ''}bundle exec cucumber ../features")
