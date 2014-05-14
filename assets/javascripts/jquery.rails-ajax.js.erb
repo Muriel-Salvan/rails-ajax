@@ -251,6 +251,14 @@ var railsAjax = {
           }
         });
       }
+      
+      // 6. Update CSRF Token
+      if ('meta_tags' in iData) {
+        jQuery.each(iData.meta_tags, function(iName, iValue) {
+          <%= 'alert(\'[RailsAjax] Update meta tag \' + iName + \':\\n\' + iValue);' if (RailsAjax.config.debug_alerts?) %>
+          $('meta[name='+iName+']').attr('content', iValue);
+        });
+      }
 
     } catch (iError) {
       alert('[RailsAjax] Exception while updating page: ' + iError.name + ' - ' + iError.message);

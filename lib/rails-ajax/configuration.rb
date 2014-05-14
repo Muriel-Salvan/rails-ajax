@@ -10,6 +10,14 @@ module RailsAjax
     def enabled?
       @enabled
     end
+    
+    # Indicate if CSRF tokens are enabled
+    #
+    # Return::
+    # * _Boolean_: Is rails-ajax enabled?
+    def csrf_tokens?
+      @csrf_tokens
+    end
 
     # Debug alerts ?
     #
@@ -23,6 +31,7 @@ module RailsAjax
     def initialize
       # Set default values here
       @enabled = true
+      @csrf_tokens = true
       @main_container = 'body'
       @flash_containers = {}
       @debug_alerts = false
@@ -36,6 +45,15 @@ module RailsAjax
       @enabled = switch
     end
 
+
+    # Do we activate CSRF Tokens ?
+    #
+    # Parameters::
+    # * *switch* (_Boolean_): Do we activate RailsAjax ?
+    def csrf_tokens(switch)
+      @csrf_tokens = switch
+    end
+    
     # Define the main container if provided, and return it
     #
     # Parameters::

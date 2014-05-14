@@ -21,6 +21,9 @@ RailsAjax.configure do
     error: '#FlashError',
     alert: '#FlashAlert'
   )
+  
+  # Enable or disable updating of CSRF tokens as meta tags in the header
+  csrf_tokens true
 
   # Activate debugging alerts in the JS code.
   # This will pop plenty of JS dialogs at each stage of RailsAjax calls, useful to better debug what is going wrong.
