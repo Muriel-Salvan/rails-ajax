@@ -1,5 +1,5 @@
 {<img src="https://badge.fury.io/rb/rails-ajax.png" alt="Gem Version" />}[http://badge.fury.io/rb/rails-ajax]
-{<img src="http://inch-pages.github.io/github/Muriel-Salvan/rails-ajax.png" alt="Inline docs" />}[http://inch-pages.github.io/github/Muriel-Salvan/rails-ajax]
+{<img src="http://inch-ci.org/github/Muriel-Salvan/rails-ajax.png" alt="Inline docs" />}[http://inch-ci.org/github/Muriel-Salvan/rails-ajax]
 {<img src="https://travis-ci.org/Muriel-Salvan/rails-ajax.png?branch=master" />}[https://travis-ci.org/Muriel-Salvan/rails-ajax]
 {<img src="https://codeclimate.com/github/Muriel-Salvan/rails-ajax.png" />}[https://codeclimate.com/github/Muriel-Salvan/rails-ajax]
 {<img src="https://codeclimate.com/github/Muriel-Salvan/rails-ajax/coverage.png" />}[https://codeclimate.com/github/Muriel-Salvan/rails-ajax]
