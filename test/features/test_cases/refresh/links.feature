@@ -197,3 +197,18 @@ Feature: Refresh links
     When I click on "empty_page_500" from "Index"
     Then the page should be empty
       And the location URL should be "/empty_page/500"
+
+  @javascript @store_xhr
+  Scenario: The browser says to not cache JSON output with JavaScript enabled
+    Given I am on the home page
+    When I click on "Page1" from "Index"
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Page1" should be "1"
+      And "xhr" caching should be "off"
+
+  @javascript
+  Scenario: The browser says to use cache correctly when no JSON is involved with JavaScript enabled
+    Given I am on the home page
+    Then the refresh counter "Layout" should be "1"
+      And the refresh counter "Index" should be "1"
+      And "page" caching should be "on"

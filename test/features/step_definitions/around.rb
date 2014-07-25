@@ -9,6 +9,7 @@ Before do |scenario|
   @use_javascript = tags.include?('@javascript')
   @trap_alerts = tags.include?('@trap_alerts')
   @set_callbacks = tags.include?('@set_callbacks')
+  @store_xhr = tags.include?('@store_xhr')
 end
 
 After do
@@ -31,4 +32,9 @@ end
 After('@trap_alerts') do
   page.execute_script('window.alert = window.originalAlert;')
   page.evaluate_script('window.getNextAlertMessage();').should be_nil
+end
+
+# Reset xhr if needed
+After('@store_xhr') do
+  page.execute_script('delete window.xhr;')
 end

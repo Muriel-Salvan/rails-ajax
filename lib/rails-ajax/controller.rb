@@ -32,6 +32,12 @@ module RailsAjax
                 RailsAjax.config.main_container => main_content
               }
             ).to_json
+
+            # Disable the cache as what is returned is not the complete page: browsers should not cache it.
+            response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
+
           elsif args[:status].nil?
             redirect_to args[:location]
           else

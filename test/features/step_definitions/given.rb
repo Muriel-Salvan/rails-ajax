@@ -39,6 +39,21 @@ Given /^I am on the home page$/ do
       };
     ')
   end
+  if @store_xhr
+    page.execute_script('
+      window.xhr = [];
+      railsAjax.beforeSend = function(ioXHR, iSettings) {
+        window.xhr[window.xhr.length] = {
+          "send": ioXHR
+        };
+      };
+      railsAjax.complete = function(iXHR) {
+        window.xhr[window.xhr.length-1] = {
+          "receive": iXHR
+        };
+      };
+    ')
+  end
 end
 
 Given /^I setup flash container "(.*?)" to "(.*?)"$/ do |flash_type, container_id|

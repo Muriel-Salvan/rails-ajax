@@ -94,3 +94,12 @@ Then /^the element "(.*?)" should be inside element "(.*?)"$/ do |elem_css_selec
     page.should have_selector(elem_css_selector)
   end
 end
+
+Then(/^"(.*?)" caching should be "(.*?)"$/) do |cache_type, switch|
+  pragma_value = cache_type == 'xhr' ? page.evaluate_script('window.xhr[window.xhr.length-1]["receive"].getResponseHeader("Pragma")') : response_headers['Pragma']
+  if switch == 'on'
+    pragma_value.should.nil?
+  else
+    pragma_value.should == 'no-cache'
+  end
+end
