@@ -127,6 +127,7 @@ module RailsAjax
       json_result[:js_to_execute] = @js_to_execute if defined?(@js_to_execute)
       json_result[:div_contents] = elements_contents
       json_result[:redirect_to] = options[:redirect_to] if options[:redirect_to]
+      json_result[:meta_tags] = {'csrf-token' => form_authenticity_token} if RailsAjax.config.csrf_tokens?
 
       json_result
     end
